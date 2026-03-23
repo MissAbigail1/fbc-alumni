@@ -276,7 +276,7 @@ function Signup() {
               </div>
             </div>
             <button
-              onClick={() => navigate('/dashboard')}
+             onClick={() => navigate('/feed')}
               className="w-full bg-green-600 text-white text-sm font-semibold py-3 rounded-lg hover:bg-green-700">
               Complete profile — go to my dashboard
             </button>

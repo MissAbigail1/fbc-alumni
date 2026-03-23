@@ -1,3 +1,4 @@
+import Navbar from '../components/Navbar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -72,21 +73,7 @@ function News() {
   return (
     <div className="min-h-screen bg-white">
 
-      {/* Navbar */}
-      <nav className="flex items-center justify-between px-8 py-4 border-b border-gray-200">
-        <div className="text-lg font-semibold text-gray-900">FBC Alumni</div>
-        <div className="flex items-center gap-8">
-          <button onClick={() => navigate('/dashboard')} className="text-sm text-gray-500 hover:text-gray-900">Dashboard</button>
-          <button onClick={() => navigate('/directory')} className="text-sm text-gray-500 hover:text-gray-900">Directory</button>
-          <button onClick={() => navigate('/events')} className="text-sm text-gray-500 hover:text-gray-900">Events</button>
-          <button onClick={() => navigate('/donate')} className="text-sm text-gray-500 hover:text-gray-900">Give back</button>
-          <button onClick={() => navigate('/news')} className="text-sm font-medium text-gray-900">News</button>
-          <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-xs font-semibold text-purple-700">
-            AK
-          </div>
-        </div>
-      </nav>
-
+      <Navbar />
       <div className="px-8 py-6">
         <h1 className="text-2xl font-semibold text-gray-900 mb-1">News & announcements</h1>
         <p className="text-sm text-gray-500 mb-6">Stay up to date with FBC alumni news, events and stories</p>

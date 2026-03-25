@@ -1,6 +1,7 @@
 import Navbar from '../components/Navbar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Search, SlidersHorizontal, MapPin, GraduationCap } from 'lucide-react';
 
 function Directory() {
   const navigate = useNavigate();
@@ -14,8 +15,12 @@ function Directory() {
     mentor: false, 
   });
 
-const [messageModal, setMessageModal] = useState(null);
-const [connected, setConnected] = useState([]);
+  const [connectModal, setConnectModal] = useState(null);
+  const [connectMessage, setConnectMessage] = useState('');
+  const [shareWhatsApp, setShareWhatsApp] = useState(false);
+  const [shareEmail, setShareEmail] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [connected, setConnected] = useState([]);
 
   const alumni = [
     { id: 1, initials: 'MB', name: 'Mohamed Bangura', role: 'Senior Lawyer', faculty: 'Law', year: '2008', location: 'Freetown, Sierra Leone', mentor: true, bg: 'bg-green-400', text: 'text-white', decade: '2000s', cover: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400&q=80' },
@@ -70,7 +75,7 @@ const [connected, setConnected] = useState([]);
 
           {/* Search */}
           <div className="relative flex-1 max-w-sm">
-            <span className="absolute left-3 top-2.5 text-gray-400 text-sm">🔍</span>
+            <Search className="absolute left-3 top-2.5 text-gray-400 w-4 h-4" />
             <input
               type="text"
               value={search}
@@ -85,7 +90,7 @@ const [connected, setConnected] = useState([]);
             <button
               onClick={() => setShowModal(true)}
               className="flex items-center gap-2 border border-gray-200 rounded-lg px-4 py-2 text-sm text-gray-600 hover:border-fbc-green hover:text-fbc-green transition-all">
-              <span>⚙</span>
+              <SlidersHorizontal className="w-4 h-4" />
               <span>Filters</span>
               {activeFilterCount > 0 && (
                 <span className="bg-fbc-green text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-semibold">
@@ -153,7 +158,7 @@ const [connected, setConnected] = useState([]);
         {filtered.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {filtered.map(alumni => (
-              <div key={alumni.id} className="bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all">
+              <div key={alumni.id} className="bg-white rounded-md overflow-hidden shadow-card hover:shadow-card-hover transition-all">
 
                 {/* Cover Image */}
                 <div className="relative h-28">
@@ -172,9 +177,7 @@ const [connected, setConnected] = useState([]);
 
                 {/* Avatar — overlaps cover */}
                 <div className="flex justify-center -mt-7 mb-2 relative z-10">
-                  <div className={`w-14 h-14 rounded-full ${alumni.bg} flex items-center justify-center text-base font-bold ${alumni.text} border-4 border-white`}>
-                    {alumni.initials}
-                  </div>
+                  <img src={`https://i.pravatar.cc/150?u=${alumni.id}`} alt={alumni.name} className="w-14 h-14 rounded-full border-4 border-white object-cover bg-white shadow-sm" />
                 </div>
 
                 {/* Info */}
@@ -182,34 +185,33 @@ const [connected, setConnected] = useState([]);
                   <div className="text-sm font-bold text-gray-900">{alumni.name}</div>
                   <div className="text-xs text-gray-500 mt-0.5">{alumni.role}</div>
                   <div className="flex items-center justify-center gap-1 mt-1">
-                    <span className="text-xs">📍</span>
+                    <MapPin className="w-3.5 h-3.5 text-gray-400" />
                     <span className="text-xs text-gray-400">{alumni.location}</span>
                   </div>
                   <div className="flex items-center justify-center gap-1 mt-0.5">
-                    <span className="text-xs">🎓</span>
+                    <GraduationCap className="w-3.5 h-3.5 text-gray-400" />
                     <span className="text-xs text-gray-400">{alumni.faculty} · {alumni.year}</span>
                   </div>
                 </div>
 
-                {/* Buttons */}
-                <div className="flex gap-2 px-4 pb-3 mt-2">
+                <div className="flex justify-center gap-2 px-4 pb-3 mt-4">
                   <button
-  onClick={() => setMessageModal(alumni)}
-  className="flex-1 bg-fbc-green text-white text-xs font-semibold py-1.5 rounded-lg hover:bg-fbc-green-dark transition-colors">
-  Message
-</button>
-                 <button
-  onClick={() => setConnected(prev =>
-    prev.includes(alumni.id)
-      ? prev.filter(id => id !== alumni.id)
-      : [...prev, alumni.id]
-  )}
-  className={`flex-1 text-xs font-semibold py-1.5 rounded-lg transition-colors border
-    ${connected.includes(alumni.id)
-      ? 'bg-fbc-green-light text-fbc-green border-fbc-green'
-      : 'border-gray-200 text-gray-600 hover:border-fbc-green hover:text-fbc-green'}`}>
-  {connected.includes(alumni.id) ? '✓ Connected' : 'Connect'}
-</button>
+                    onClick={() => {
+                      if (!connected.includes(alumni.id)) {
+                        setConnectModal(alumni);
+                        setConnectMessage('');
+                        setShareWhatsApp(false);
+                        setShareEmail(false);
+                        setShowSuccess(false);
+                      }
+                    }}
+                    disabled={connected.includes(alumni.id)}
+                    className={`w-full text-[11px] font-bold py-2 rounded-sm transition-all border
+                      ${connected.includes(alumni.id)
+                        ? 'bg-fbc-green-light text-fbc-green border-fbc-green cursor-default'
+                        : 'bg-fbc-green text-white border-fbc-green hover:bg-fbc-green-dark'}`}>
+                    {connected.includes(alumni.id) ? '✓ Connected' : 'Connect'}
+                  </button>
                 </div>
 
                 {/* View Profile */}
@@ -224,7 +226,7 @@ const [connected, setConnected] = useState([]);
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center h-64 text-center">
-            <div className="text-4xl mb-4">🔍</div>
+            <Search className="w-10 h-10 text-gray-300 mb-4" />
             <div className="text-sm font-semibold text-gray-900 mb-1">No alumni found</div>
             <div className="text-xs text-gray-500 mb-4">Try adjusting your search or filters</div>
             <button onClick={clearFilters} className="text-xs text-fbc-green hover:underline">Clear all filters</button>
@@ -329,86 +331,101 @@ const [connected, setConnected] = useState([]);
           </div>
         </div>
       )}
-      {/* Message Modal */}
-{messageModal && (
-  <div
-    className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4"
-    onClick={() => setMessageModal(null)}>
-    <div
-      className="bg-white rounded-2xl shadow-card-hover w-full max-w-md p-6"
-      onClick={e => e.stopPropagation()}>
-
-      {/* Header */}
-      <div className="flex items-center justify-between mb-5">
-        <h3 className="text-lg font-bold text-gray-900">
-          Contact {messageModal.name}
-        </h3>
-        <button
-          onClick={() => setMessageModal(null)}
-          className="text-gray-400 hover:text-gray-600 text-2xl leading-none">
-          ×
-        </button>
-      </div>
-
-      {/* Recipient */}
-      <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-3 mb-5">
-        <div className={`w-10 h-10 rounded-full ${messageModal.bg} flex items-center justify-center text-sm font-bold ${messageModal.text}`}>
-          {messageModal.initials}
-        </div>
-        <div>
-          <div className="text-sm font-semibold text-gray-900">{messageModal.name}</div>
-          <div className="text-xs text-gray-500">{messageModal.role} · Class of {messageModal.year}</div>
-        </div>
-      </div>
-
-      {/* Message */}
-      <label className="text-sm font-semibold text-gray-900 block mb-2">
-        Your message
-      </label>
-      <textarea
-        className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-fbc-green resize-none h-24 mb-4"
-        placeholder={`Hi ${messageModal.name.split(' ')[0]}, I'm an FBC alumni and I'd love to connect...`}
-      />
-
-      {/* What to share */}
-      <label className="text-sm font-semibold text-gray-900 block mb-2">
-        Share your contact
-      </label>
-      <div className="flex flex-col gap-2 mb-5">
-        {[
-          'Share my email address',
-          'Share my WhatsApp number',
-          'No contact details — just a message'
-        ].map((opt, i) => (
+      {/* Connect Modal */}
+      {connectModal && (
+        <div
+          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4 backdrop-blur-sm"
+          onClick={() => setConnectModal(null)}>
           <div
-            key={i}
-            className={`flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition-all
-              ${i === 0
-                ? 'border-fbc-green bg-fbc-green-light'
-                : 'border-gray-200 hover:border-gray-300'}`}>
-            <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0
-              ${i === 0
-                ? 'border-fbc-green bg-fbc-green'
-                : 'border-gray-300'}`}>
-            </div>
-            <span className="text-sm text-gray-700">{opt}</span>
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200"
+            onClick={e => e.stopPropagation()}>
+            
+            {!showSuccess ? (
+              <>
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-xl font-bold text-gray-900 leading-none">Connect with Alumni</h3>
+                    <button onClick={() => setConnectModal(null)} className="text-gray-400 hover:text-gray-600 text-2xl leading-none">×</button>
+                  </div>
+
+                  <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-xl mb-6">
+                    <img src={`https://i.pravatar.cc/150?u=${connectModal.id}`} alt={connectModal.name} className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" />
+                    <div>
+                      <div className="text-sm font-bold text-gray-900">{connectModal.name}</div>
+                      <div className="text-xs text-gray-500">{connectModal.role} · {connectModal.year}</div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex justify-between items-center mb-1.5">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Introductory Message</label>
+                        <span className={`text-[10px] font-bold ${connectMessage.length > 140 ? 'text-red-500' : 'text-gray-400'}`}>
+                          {connectMessage.length}/150
+                        </span>
+                      </div>
+                      <textarea
+                        value={connectMessage}
+                        onChange={(e) => setConnectMessage(e.target.value.slice(0, 150))}
+                        className="w-full border border-gray-200 rounded-xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-fbc-green/20 focus:border-fbc-green transition-all h-28 resize-none"
+                        placeholder={`Hi ${connectModal.name.split(' ')[0]}, I'd love to connect and hear about your journey after FBC...`}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-3">Share your contact info</label>
+                      <div className="grid grid-cols-1 gap-2">
+                        <button 
+                          onClick={() => setShareWhatsApp(!shareWhatsApp)}
+                          className={`flex items-center justify-between p-3 rounded-xl border transition-all text-left ${shareWhatsApp ? 'bg-fbc-green-light border-fbc-green' : 'border-gray-100 hover:border-gray-200'}`}>
+                          <span className="text-sm font-medium text-gray-700">WhatsApp Number</span>
+                          <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${shareWhatsApp ? 'bg-fbc-green border-fbc-green' : 'border-gray-300'}`}>
+                            {shareWhatsApp && <span className="text-white text-[10px]">✓</span>}
+                          </div>
+                        </button>
+                        <button 
+                          onClick={() => setShareEmail(!shareEmail)}
+                          className={`flex items-center justify-between p-3 rounded-xl border transition-all text-left ${shareEmail ? 'bg-fbc-green-light border-fbc-green' : 'border-gray-100 hover:border-gray-200'}`}>
+                          <span className="text-sm font-medium text-gray-700">Email Address</span>
+                          <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${shareEmail ? 'bg-fbc-green border-fbc-green' : 'border-gray-300'}`}>
+                            {shareEmail && <span className="text-white text-[10px]">✓</span>}
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-6 bg-gray-50 border-t border-gray-100">
+                  <button
+                    onClick={() => {
+                      setConnected(prev => [...prev, connectModal.id]);
+                      setShowSuccess(true);
+                      setTimeout(() => setConnectModal(null), 2500);
+                    }}
+                    className="w-full bg-fbc-green text-white font-bold py-3.5 rounded-xl hover:bg-fbc-green-dark transition-all shadow-lg shadow-fbc-green/20">
+                    Send Connect Request
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="p-12 text-center animate-in zoom-in-95 duration-300">
+                <div className="w-20 h-20 bg-fbc-green-light rounded-full flex items-center justify-center mx-auto mb-6">
+                  <span className="text-4xl">🕊️</span>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Request Sent!</h3>
+                <p className="text-gray-500 text-sm leading-relaxed mb-8">
+                  Your connection request has been sent to {connectModal.name}. You'll be notified once they accept!
+                </p>
+                <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-fbc-green animate-[progress_2.5s_linear]"></div>
+                </div>
+              </div>
+            )}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
 
-      {/* Send Button */}
-      <button
-        onClick={() => setMessageModal(null)}
-        className="w-full bg-fbc-green text-white font-semibold py-3 rounded-xl hover:bg-fbc-green-dark transition-colors text-sm">
-        Send contact request
-      </button>
-      <p className="text-xs text-gray-400 text-center mt-2">
-        {messageModal.name.split(' ')[0]} will only see your contact details if they accept
-      </p>
-
-    </div>
-  </div>
-)}
 
     </div>
     

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Bell, ChevronDown, User, Calendar, GraduationCap, Newspaper, Edit2, Settings, LogOut } from 'lucide-react';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -21,23 +22,23 @@ function Navbar() {
   ).length;
 
   const navLinks = [
-    { label: 'Home', path: '/feed' },
-    { label: 'Directory', path: '/directory' },
-    { label: 'Events', path: '/events' },
-    { label: 'Give back', path: '/donate' },
-    { label: 'News', path: '/news' },
-  ];
+  { label: 'Home', path: '/' },
+  { label: 'Directory', path: '/directory' },
+  { label: 'Events', path: '/events' },
+  { label: 'Chapters', path: '/chapters' },
+  { label: 'Give back', path: '/donate' },
+];
 
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="bg-fbc-green flex items-center justify-between px-10 py-4 relative z-50">
+    <nav className="bg-fbc-green flex items-center justify-between px-10 py-1.5 relative z-50 shadow-sm">
 
       {/* Logo */}
       <img
         src="/fbc-alumni-logo.png"
         alt="FBC Alumni Logo"
-        className="h-16 w-auto object-contain cursor-pointer"
+        className="h-14 w-auto object-contain cursor-pointer transform scale-[1.4] origin-left"
         onClick={() => navigate('/')}
       />
 
@@ -68,9 +69,7 @@ function Navbar() {
               setShowProfile(false);
             }}
             className="relative text-white/80 hover:text-white transition-colors p-1">
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
+            <Bell className="w-6 h-6" />
             {unreadCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center font-bold">
                 {unreadCount}
@@ -100,9 +99,9 @@ function Navbar() {
                       ${n.type === 'contact' ? 'bg-blue-100' :
                         n.type === 'event' ? 'bg-amber-100' :
                         n.type === 'alumni' ? 'bg-green-100' : 'bg-purple-100'}`}>
-                      {n.type === 'contact' ? '👤' :
-                       n.type === 'event' ? '📅' :
-                       n.type === 'alumni' ? '🎓' : '📰'}
+                      {n.type === 'contact' ? <User className="w-4 h-4" /> :
+                       n.type === 'event' ? <Calendar className="w-4 h-4" /> :
+                       n.type === 'alumni' ? <GraduationCap className="w-4 h-4" /> : <Newspaper className="w-4 h-4" />}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-xs text-gray-700 leading-snug">{n.text}</div>
@@ -134,9 +133,7 @@ function Navbar() {
             <div className="w-9 h-9 rounded-full bg-fbc-gold flex items-center justify-center text-white text-xs font-bold">
               AK
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
+            <ChevronDown className="w-4 h-4 text-white/70" />
           </button>
 
           {/* Profile Dropdown */}
@@ -148,12 +145,12 @@ function Navbar() {
               </div>
               <div className="flex flex-col py-1">
                 {[
-                  { label: 'View profile', icon: '👤' },
-                  { label: 'Edit profile', icon: '✏️' },
-                  { label: 'Settings', icon: '⚙️' },
+                  { label: 'View profile', icon: <User className="w-4 h-4" /> },
+                  { label: 'Edit profile', icon: <Edit2 className="w-4 h-4" /> },
+                  { label: 'Settings', icon: <Settings className="w-4 h-4" /> },
                 ].map((item, i) => (
                   <button key={i} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
-                    <span className="text-base" style={{fontSize: '14px'}}>{item.icon}</span>
+                    <span className="text-gray-400 flex items-center justify-center w-4 h-4">{item.icon}</span>
                     {item.label}
                   </button>
                 ))}
@@ -161,7 +158,7 @@ function Navbar() {
                   <button
                     onClick={() => navigate('/')}
                     className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors w-full text-left">
-                    <span style={{fontSize: '14px'}}>🚪</span>
+                    <LogOut className="w-4 h-4" />
                     Log out
                   </button>
                 </div>

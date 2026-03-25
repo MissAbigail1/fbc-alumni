@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ArrowRight, Check } from 'lucide-react';
 
 function Signup() {
   const navigate = useNavigate();
@@ -110,7 +111,7 @@ function Signup() {
                   ${step > i + 1 ? 'bg-green-600 text-white' :
                     step === i + 1 ? 'bg-gray-900 text-white' :
                     'bg-gray-100 text-gray-400'}`}>
-                  {step > i + 1 ? '✓' : i + 1}
+                  {step > i + 1 ? <Check className="w-4 h-4" /> : i + 1}
                 </div>
                 <span className={`text-xs ${step === i + 1 ? 'text-gray-900 font-medium' : 'text-gray-400'}`}>
                   {label}
@@ -175,8 +176,8 @@ function Signup() {
             </div>
             <button
               onClick={() => setStep(2)}
-              className="w-full bg-gray-900 text-white text-sm font-semibold py-3 rounded-lg mt-5 hover:bg-gray-700">
-              Continue →
+              className="w-full flex items-center justify-center gap-1 bg-gray-900 text-white text-sm font-semibold py-3 rounded-lg mt-5 hover:bg-gray-700">
+              Continue <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         )}
@@ -232,8 +233,8 @@ function Signup() {
             </div>
             <button
               onClick={() => setStep(3)}
-              className="w-full bg-gray-900 text-white text-sm font-semibold py-3 rounded-lg mt-5 hover:bg-gray-700">
-              Continue →
+              className="w-full flex items-center justify-center gap-1 bg-gray-900 text-white text-sm font-semibold py-3 rounded-lg mt-5 hover:bg-gray-700">
+              Continue <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         )}
@@ -243,7 +244,7 @@ function Signup() {
           <div>
             <div className="flex justify-between items-center mb-1">
               <h2 className="text-lg font-semibold text-gray-900">What are you here for?</h2>
-              <button onClick={() => navigate('/dashboard')} className="text-xs text-gray-400 hover:text-gray-600">Skip</button>
+              <button onClick={() => navigate('/')} className="text-xs text-gray-400 hover:text-gray-600">Skip</button>
             </div>
             <p className="text-sm text-gray-500 mb-5">Select all that apply.</p>
             <div className="flex flex-wrap gap-2 mb-5">
@@ -276,9 +277,9 @@ function Signup() {
               </div>
             </div>
             <button
-             onClick={() => navigate('/feed')}
+             onClick={() => navigate('/')}
               className="w-full bg-green-600 text-white text-sm font-semibold py-3 rounded-lg hover:bg-green-700">
-              Complete profile — go to my dashboard
+              Complete profile — go to my site
             </button>
           </div>
         )}

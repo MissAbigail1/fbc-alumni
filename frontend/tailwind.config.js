@@ -13,7 +13,7 @@ module.exports = {
         'fbc-gold-light': '#fef9ec',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Roboto', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
         'card': '0 2px 12px rgba(0,0,0,0.08)',

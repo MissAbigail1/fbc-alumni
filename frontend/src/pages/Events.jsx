@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
+import { Calendar, Clock, MapPin, CalendarDays } from 'lucide-react';
 
 function Events() {
   const [activeTab, setActiveTab] = useState('All');
@@ -181,11 +182,11 @@ function Events() {
                   {/* Date & Time */}
                   <div className="flex items-center gap-4 mb-2">
                     <div className="flex items-center gap-1.5 text-xs text-gray-400">
-                      <span>📅</span>
+                      <Calendar className="w-3.5 h-3.5" />
                       <span>{event.date}</span>
                     </div>
                     <div className="flex items-center gap-1.5 text-xs text-gray-400">
-                      <span>🕐</span>
+                      <Clock className="w-3.5 h-3.5" />
                       <span>{event.time}</span>
                     </div>
                   </div>
@@ -197,7 +198,7 @@ function Events() {
 
                   {/* Location */}
                   <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                    <span>📍</span>
+                    <MapPin className="w-3.5 h-3.5" />
                     <span>{event.location}</span>
                   </div>
                 </div>
@@ -245,7 +246,7 @@ function Events() {
         {/* Empty state */}
         {filtered.length === 0 && (
           <div className="text-center py-16">
-            <div className="text-4xl mb-4">📅</div>
+            <CalendarDays className="w-10 h-10 text-gray-300 mx-auto mb-4" />
             <div className="text-sm font-semibold text-gray-900 mb-1">No events found</div>
             <div className="text-xs text-gray-500">Try selecting a different category</div>
           </div>

@@ -143,6 +143,62 @@ function Chapters() {
         { title: 'East Coast Regional Meetup', date: 'August 22, 2026', location: 'Washington DC' },
         { title: 'Annual Thanksgiving Potluck', date: 'November 26, 2026', location: 'Maryland' }
       ]
+    },
+    {
+      id: 'ng',
+      name: 'Nigeria Chapter',
+      type: 'international',
+      flag: '🇳🇬',
+      city: 'Lagos, Nigeria',
+      image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=1200&auto=format&fit=crop',
+      members: 512,
+      established: 2008,
+      eventsPerYear: 12,
+      president: 'Chioma Okonkwo',
+      presidentInitials: 'CO',
+      nextEvent: { title: 'West African Alumni Summit', date: 'May 20, 2026' },
+      description: 'Connecting FBC alumni across Nigeria and fostering professional development in West Africa.',
+      mission: 'Building a strong FBC community in Nigeria through networking, mentorship, and support for educational initiatives across West Africa.',
+      activities: ['West African Alumni Summit', 'Lagos Professional Networking Series', 'University Partnership & Mentorship', 'Educational Scholarship Program'],
+      announcements: [
+        { title: 'West African Summit Planning', message: 'We\'re excited to announce our first-ever West African Alumni Summit coming in May. Registration opens soon!', date: '23 Mar 2026' }
+      ],
+      leadership: [
+        { role: 'Chapter President', name: 'Chioma Okonkwo', initials: 'CO', bg: 'bg-orange-100', text: 'text-orange-800' },
+        { role: 'Chapter Vice President', name: 'Emeka Nwankwo', initials: 'EN', bg: 'bg-red-100', text: 'text-red-800' },
+      ],
+      upcomingEvents: [
+        { title: 'West African Alumni Summit', date: 'May 20, 2026', location: 'Lekki Convention Centre, Lagos' },
+        { title: 'Lagos Professional Networking Dinner', date: 'June 15, 2026', location: 'Victoria Island, Lagos' }
+      ]
+    },
+    {
+      id: 'gm',
+      name: 'Gambia Chapter',
+      type: 'international',
+      flag: '🇬🇲',
+      city: 'Banjul, Gambia',
+      image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1200&auto=format&fit=crop',
+      members: 89,
+      established: 2015,
+      eventsPerYear: 6,
+      president: 'Amara Jallow',
+      presidentInitials: 'AJ',
+      nextEvent: { title: 'Gambian Alumni Gathering', date: 'April 28, 2026' },
+      description: 'A growing community of FBC graduates in Gambia dedicated to academic excellence and mutual support.',
+      mission: 'Strengthening ties between FBC alumni in Gambia and supporting educational advancement throughout the country.',
+      activities: ['Monthly Alumni Meetups', 'Student Scholarship Support', 'Professional Career Workshops', 'Community Outreach Programs'],
+      announcements: [
+        { title: 'New Chapter Leadership', message: 'We\'re proud to welcome our new chapter leadership team for 2026. Looking forward to an exciting year!', date: '21 Mar 2026' }
+      ],
+      leadership: [
+        { role: 'Chapter President', name: 'Amara Jallow', initials: 'AJ', bg: 'bg-cyan-100', text: 'text-cyan-800' },
+        { role: 'Chapter Treasurer', name: 'Lamin Camara', initials: 'LC', bg: 'bg-lime-100', text: 'text-lime-800' },
+      ],
+      upcomingEvents: [
+        { title: 'Gambian Alumni Gathering', date: 'April 28, 2026', location: 'Banjul Waterfront' },
+        { title: 'Student Mentorship Forum', date: 'May 30, 2026', location: 'University of The Gambia' }
+      ]
     }
   ];
 
@@ -159,7 +215,7 @@ function Chapters() {
     } else {
       setActiveChapter(null);
     }
-  }, [id, chapters]); // Added chapters dependency as it's defined inside the component
+  }, [id]); // Only depend on id, not chapters (chapters is constant data)
 
   const handleJoin = (e, chapter) => {
     e.stopPropagation();
@@ -216,50 +272,49 @@ function Chapters() {
       {!activeChapter ? (
         <>
           {/* Hero Banner - More Premium */}
-          <div className="relative h-[450px] flex items-center justify-center overflow-hidden">
+          <div className="relative h-[450px] flex items-center justify-center overflow-hidden bg-white">
             <div className="absolute inset-0 z-0">
-              <img src="https://images.unsplash.com/photo-1541339907198-e08756ebafe1?q=80&w=2000&auto=format&fit=crop" alt="Campus backdrop" className="w-full h-full object-cover scale-105 blur-[2px]" />
-              <div className="absolute inset-0 bg-gradient-to-b from-fbc-green/90 via-fbc-green/80 to-gray-50"></div>
+              <img src="https://images.unsplash.com/photo-1541339907198-e08756ebafe1?q=80&w=2000&auto=format&fit=crop" alt="Campus backdrop" className="w-full h-full object-cover scale-105 blur-[2px] opacity-10" />
             </div>
 
             <div className="max-w-4xl mx-auto relative z-10 text-center px-6">
-              <div className="inline-block bg-white/20 backdrop-blur-md text-white text-xs font-bold px-4 py-1.5 rounded-full mb-6 border border-white/30 uppercase tracking-[0.2em]">
+              <div className="inline-block bg-fbc-green text-white text-xs font-bold px-4 py-1.5 rounded-full mb-6 border border-fbc-green uppercase tracking-[0.2em]">
                 Global Network
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">FBC Alumni Chapters</h1>
-              <p className="text-white/90 text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+              <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">FBC Alumni Chapters</h1>
+              <p className="text-gray-600 text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
                 Stay connected to your roots while growing your future. Join a global community of Fourah Bay College graduates across the world.
               </p>
 
               <div className="flex flex-wrap justify-center gap-4">
-                <div className="bg-white/10 backdrop-blur-xl rounded-2xl px-8 py-4 border border-white/20 shadow-xl">
+                <div className="bg-fbc-green rounded-2xl px-8 py-4 border border-fbc-green shadow-xl">
                   <div className="text-3xl font-bold text-white mb-0.5">3</div>
-                  <div className="text-[10px] text-white/60 uppercase tracking-widest font-black">Chapters</div>
+                  <div className="text-[10px] text-white/80 uppercase tracking-widest font-black">Chapters</div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-xl rounded-2xl px-8 py-4 border border-white/20 shadow-xl">
+                <div className="bg-fbc-green rounded-2xl px-8 py-4 border border-fbc-green shadow-xl">
                   <div className="text-3xl font-bold text-white mb-0.5">3.6k</div>
-                  <div className="text-[10px] text-white/60 uppercase tracking-widest font-black">Members</div>
+                  <div className="text-[10px] text-white/80 uppercase tracking-widest font-black">Members</div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-xl rounded-2xl px-8 py-4 border border-white/20 shadow-xl">
+                <div className="bg-fbc-green rounded-2xl px-8 py-4 border border-fbc-green shadow-xl">
                   <div className="text-3xl font-bold text-white mb-0.5">24</div>
-                  <div className="text-[10px] text-white/60 uppercase tracking-widest font-black">Annual Events</div>
+                  <div className="text-[10px] text-white/80 uppercase tracking-widest font-black">Annual Events</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="max-w-6xl mx-auto px-6 -mt-16 relative z-20 pb-20">
+          <div className="max-w-6xl mx-auto px-6 pt-16 pb-20">
 
             {/* HQ Card - Full Immersive */}
             <div
               onClick={() => navigate(`/chapters/${hqChapter.id}`)}
-              className="group relative h-[400px] rounded-[40px] overflow-hidden shadow-2xl cursor-pointer mb-12 hover:shadow-fbc-green/20 transition-all border border-gray-100">
-              <img 
-                src={hqChapter.image} 
-                alt={hqChapter.name} 
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+              className="group relative h-[400px] rounded-[40px] overflow-hidden shadow-2xl cursor-pointer mb-12 hover:shadow-fbc-green/20 transition-all border border-gray-100"
+              style={{
+                backgroundImage: `url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1200&auto=format&fit=crop')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent group-hover:from-black/75 group-hover:via-black/35 transition-colors duration-1000"></div>
 
               <div className="absolute top-8 right-8 bg-fbc-gold text-yellow-900 text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
                 Global Headquarters
@@ -313,12 +368,12 @@ function Chapters() {
             </div>
 
             {/* International Grid - Modern Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
               {internationalChapters.map(chapter => (
                 <div
                   key={chapter.id}
                   onClick={() => navigate(`/chapters/${chapter.id}`)}
-                  className="group relative h-[500px] rounded-[40px] overflow-hidden shadow-xl cursor-pointer hover:shadow-2xl transition-all border border-gray-100">
+                  className="group relative h-[400px] rounded-[40px] overflow-hidden shadow-xl cursor-pointer hover:shadow-2xl transition-all border border-gray-100">
                   <img src={chapter.image} alt={chapter.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
 

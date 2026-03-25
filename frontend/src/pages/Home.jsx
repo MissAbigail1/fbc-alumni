@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, GraduationCap, Users, CalendarDays, HeartHandshake, Calendar, Clock, MapPin } from 'lucide-react';
+import BicentennialCountdown from '../components/BicentennialCountdown';
 
 function Home() {
   const navigate = useNavigate();
@@ -198,6 +199,9 @@ function Home() {
         </div>
       </div>
 
+      {/* Bicentennial Countdown Section */}
+      <BicentennialCountdown />
+
       {/* Upcoming Events Section */}
       <div className="bg-white px-16 py-20 border-b border-gray-100">
         <div className="max-w-6xl mx-auto">
@@ -349,7 +353,7 @@ function Home() {
                 name: 'Sierra Leone HQ',
                 flag: '🇸🇱',
                 city: 'Freetown, SL',
-                image: 'https://images.unsplash.com/photo-1528659515089-60d7c001f31f?q=80&w=1200',
+                image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1200',
                 members: 3200,
                 desc: 'Supporting the global FBC community and managing the central scholarship fund.',
               },

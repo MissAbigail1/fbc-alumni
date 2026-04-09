@@ -1,9 +1,14 @@
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, ArrowUpRight, GraduationCap, Users, CalendarDays, HeartHandshake, Calendar, Clock, MapPin } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, GraduationCap, Users, CalendarDays, HeartHandshake, Calendar, Clock, MapPin, ChevronDown } from 'lucide-react';
+import { useState, useRef } from 'react';
 import BicentennialCountdown from '../components/BicentennialCountdown';
 
 function Home() {
   const navigate = useNavigate();
+  const [showAboutDropdown, setShowAboutDropdown] = useState(false);
+  const [showJoinModal, setShowJoinModal] = useState(false);
+  const [selectedChapter, setSelectedChapter] = useState(null);
+  const aboutDropdownRef = useRef(null);
   const joinedChapterId = localStorage.getItem('fbc_joined_chapter');
 
   const events = [
@@ -49,6 +54,29 @@ function Home() {
     return 0;
   });
 
+  const handleJoinChapter = (e, chapter) => {
+    e.stopPropagation();
+    // Check if user is logged in
+    if (!joinedChapterId) {
+      // Not logged in - redirect to signup
+      navigate('/signup');
+    } else {
+      // Logged in - show the confirmation modal
+      setSelectedChapter(chapter);
+      setShowJoinModal(true);
+    }
+  };
+
+  const confirmJoinChapter = () => {
+    if (selectedChapter) {
+      localStorage.setItem('fbc_joined_chapter', selectedChapter.id);
+      setShowJoinModal(false);
+      setSelectedChapter(null);
+      // Optionally refresh the page or update state
+      window.location.reload();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white font-sans">
 
@@ -73,6 +101,51 @@ function Home() {
             className="h-24 w-auto object-contain"
           />
           <div className="flex items-center gap-8">
+            <div 
+              className="relative"
+              ref={aboutDropdownRef}
+              onMouseEnter={() => setShowAboutDropdown(true)}
+              onMouseLeave={() => setShowAboutDropdown(false)}
+            >
+              <button 
+                onClick={() => setShowAboutDropdown(!showAboutDropdown)}
+                className="flex items-center gap-1 text-white text-sm hover:text-fbc-gold transition-colors">
+                About Us
+                <ChevronDown size={16} className={`transition-transform ${showAboutDropdown ? 'rotate-180' : ''}`} />
+              </button>
+
+              {showAboutDropdown && (
+                <div className="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden z-50">
+                  <button
+                    onClick={() => {
+                      navigate('/alumni-executives');
+                      setShowAboutDropdown(false);
+                    }}
+                    className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    Alumni Executives
+                  </button>
+                  <button
+                    onClick={() => {
+                      navigate('/constitutional-bylaws');
+                      setShowAboutDropdown(false);
+                    }}
+                    className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-100"
+                  >
+                    Constitutional and Bylaws
+                  </button>
+                  <button
+                    onClick={() => {
+                      navigate('/history');
+                      setShowAboutDropdown(false);
+                    }}
+                    className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-100"
+                  >
+                    History of the Alumni
+                  </button>
+                </div>
+              )}
+            </div>
             <button onClick={() => navigate('/directory')} className="text-white text-sm hover:text-fbc-gold transition-colors">Directory</button>
             <button onClick={() => navigate('/events')} className="text-white text-sm hover:text-fbc-gold transition-colors">Events</button>
             <button onClick={() => navigate('/donate')} className="text-white text-sm hover:text-fbc-gold transition-colors">Give back</button>
@@ -90,9 +163,10 @@ function Home() {
             Est. 1827 · Fourah Bay College · Freetown, Sierra Leone
           </span>
           <h1 className="text-6xl font-bold text-white leading-tight mb-6 max-w-4xl">
-            Connecting the{' '}
-            <span className="text-fbc-gold">Fourah Bay</span>
-            <br />College Alumni Worldwide
+            Connecting the
+            <br />
+            <span className="text-fbc-gold">Fourah Bay College Alumni</span>
+            <br />Worldwide
           </h1>
           <p className="text-white/75 text-lg leading-relaxed mb-10 max-w-xl">
             Join 5,000+ FBC graduates across 42 countries. Find mentors,
@@ -404,7 +478,9 @@ function Home() {
                       <div className="font-bold text-sm">{chapter.members.toLocaleString()}</div>
                       <div className="text-[8px] text-white/50 uppercase font-bold tracking-widest">Alumni</div>
                     </div>
-                    <button className={`px-6 py-2.5 rounded-xl font-bold text-xs transition-all shadow-xl hover:-translate-y-1 active:scale-95 whitespace-nowrap 
+                    <button 
+                      onClick={(e) => handleJoinChapter(e, chapter)}
+                      className={`px-6 py-2.5 rounded-xl font-bold text-xs transition-all shadow-xl hover:-translate-y-1 active:scale-95 whitespace-nowrap 
                       ${chapter.id === joinedChapterId ? 'bg-white/10 text-white border border-white/30' : 'bg-fbc-green text-white hover:bg-fbc-green-dark'}`}>
                       {chapter.id === joinedChapterId ? 'View Site' : 'Join Chapter'}
                     </button>
@@ -434,6 +510,29 @@ function Home() {
         </button>
       </div>
 
+      {/* Join Chapter Modal */}
+      {showJoinModal && selectedChapter && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Join {selectedChapter.name}?</h2>
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              Thank you for your interest in joining {selectedChapter.name}. The chapter president will review your request and get back to you shortly.
+            </p>
+            <div className="space-y-3">
+              <button
+                onClick={confirmJoinChapter}
+                className="w-full bg-fbc-green text-white font-bold py-3 rounded-lg hover:bg-fbc-green-dark transition-all">
+                Confirm
+              </button>
+              <button
+                onClick={() => setShowJoinModal(false)}
+                className="w-full bg-gray-200 text-gray-800 font-bold py-3 rounded-lg hover:bg-gray-300 transition-all">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

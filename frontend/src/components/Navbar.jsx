@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Bell, ChevronDown, User, Calendar, GraduationCap, Newspaper, Edit2, Settings, LogOut } from 'lucide-react';
 
@@ -7,6 +7,8 @@ function Navbar() {
   const location = useLocation();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showAboutDropdown, setShowAboutDropdown] = useState(false);
+  const aboutDropdownRef = useRef(null);
   const [readNotifications, setReadNotifications] = useState([]);
 
   const notifications = [
@@ -23,6 +25,7 @@ function Navbar() {
 
   const navLinks = [
   { label: 'Home', path: '/' },
+  { label: 'About Us', path: '/about' },
   { label: 'Directory', path: '/directory' },
   { label: 'Events', path: '/events' },
   { label: 'Chapters', path: '/chapters' },
@@ -44,18 +47,69 @@ function Navbar() {
 
       {/* Nav Links */}
       <div className="flex items-center gap-8">
-        {navLinks.map(link => (
-          <button
-            key={link.path}
-            onClick={() => navigate(link.path)}
-            className={`text-sm transition-colors ${
-              isActive(link.path)
-                ? 'text-white font-semibold border-b-2 border-fbc-gold pb-0.5'
-                : 'text-white/75 hover:text-white'
-            }`}>
-            {link.label}
-          </button>
-        ))}
+        {navLinks.map(link => {
+          if (link.label === 'About Us') {
+            return (
+              <div 
+                key={link.path} 
+                className="relative group"
+                ref={aboutDropdownRef}
+                onMouseEnter={() => setShowAboutDropdown(true)}
+                onMouseLeave={() => setShowAboutDropdown(false)}
+              >
+                <button
+                  onClick={() => setShowAboutDropdown(!showAboutDropdown)}
+                  className={`flex items-center gap-1 text-sm transition-colors ${
+                    isActive(link.path)
+                      ? 'text-white font-semibold border-b-2 border-fbc-gold pb-0.5'
+                      : 'text-white/75 hover:text-white'
+                  }`}>
+                  {link.label}
+                  <ChevronDown size={16} className={`transition-transform ${showAboutDropdown ? 'rotate-180' : ''}`} />
+                </button>
+
+                {/* About Us Dropdown - Extended hover area */}
+                {showAboutDropdown && (
+                  <div className="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden z-50 group-hover:block">
+                    <button
+                      onClick={() => {
+                        navigate('/alumni-executives');
+                        setShowAboutDropdown(false);
+                      }}
+                      className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      onMouseEnter={() => setShowAboutDropdown(true)}
+                    >
+                      Alumni & History
+                    </button>
+                    <button
+                      onClick={() => {
+                        navigate('/constitutional-bylaws');
+                        setShowAboutDropdown(false);
+                      }}
+                      className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-100"
+                      onMouseEnter={() => setShowAboutDropdown(true)}
+                    >
+                      Constitutional and Bylaws
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          }
+
+          return (
+            <button
+              key={link.path}
+              onClick={() => navigate(link.path)}
+              className={`text-sm transition-colors ${
+                isActive(link.path)
+                  ? 'text-white font-semibold border-b-2 border-fbc-gold pb-0.5'
+                  : 'text-white/75 hover:text-white'
+              }`}>
+              {link.label}
+            </button>
+          );
+        })}
       </div>
 
       {/* Right — Bell & Avatar */}
@@ -130,10 +184,9 @@ function Navbar() {
               setShowNotifications(false);
             }}
             className="flex items-center gap-2 cursor-pointer">
-            <div className="w-9 h-9 rounded-full bg-fbc-gold flex items-center justify-center text-white text-xs font-bold">
+            <div className="w-9 h-9 rounded-full bg-fbc-gold flex items-center justify-center text-white text-xs font-bold hover:opacity-80 transition-opacity">
               AK
             </div>
-            <ChevronDown className="w-4 h-4 text-white/70" />
           </button>
 
           {/* Profile Dropdown */}
@@ -149,14 +202,28 @@ function Navbar() {
                   { label: 'Edit profile', icon: <Edit2 className="w-4 h-4" /> },
                   { label: 'Settings', icon: <Settings className="w-4 h-4" /> },
                 ].map((item, i) => (
-                  <button key={i} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
+                  <button 
+                    key={i} 
+                    onClick={() => {
+                      if (item.label === 'View profile') navigate('/profile');
+                      if (item.label === 'Edit profile') navigate('/edit-profile');
+                      if (item.label === 'Settings') navigate('/settings');
+                      setShowProfile(false);
+                    }}
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left w-full">
                     <span className="text-gray-400 flex items-center justify-center w-4 h-4">{item.icon}</span>
                     {item.label}
                   </button>
                 ))}
                 <div className="border-t border-gray-100 mt-1 pt-1">
                   <button
-                    onClick={() => navigate('/')}
+                    onClick={() => {
+                      localStorage.removeItem('fbc_joined_chapter');
+                      localStorage.removeItem('fbc_user_profile');
+                      localStorage.removeItem('fbc_user_settings');
+                      setShowProfile(false);
+                      navigate('/');
+                    }}
                     className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors w-full text-left">
                     <LogOut className="w-4 h-4" />
                     Log out

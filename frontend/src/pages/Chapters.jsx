@@ -520,10 +520,10 @@ function Chapters() {
               <div className="absolute inset-0 bg-gradient-to-t from-gray-50 via-black/20 to-black/40"></div>
 
               <button
-                onClick={() => navigate('/chapters')}
+                onClick={() => navigate('/')}
                 className="absolute top-8 left-8 z-30 flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-2xl font-bold hover:bg-white/20 transition-all group">
                 <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                Back to Chapters
+                Back to Home
               </button>
             </div>
 
@@ -670,21 +670,23 @@ function Chapters() {
                               ))}
                             </ul>
                           </div>
-                          <div>
-                            <h3 className="text-xl font-black text-gray-900 mb-6 tracking-tight">Announcements</h3>
-                            <div className="space-y-4">
-                              {(activeChapter.announcements || []).map((ann, i) => (
-                                <div key={i} className="p-5 bg-gray-50 rounded-2xl border border-gray-100 relative overflow-hidden group/ann">
-                                  <div className="absolute top-0 right-0 w-24 h-24 bg-fbc-green/5 rounded-full -mr-12 -mt-12 group-hover/ann:scale-110 transition-transform"></div>
-                                  <div className="text-[10px] font-black text-fbc-green uppercase tracking-widest mb-2 flex items-center gap-2">
-                                    <ShieldCheck className="w-3 h-3" /> Admin Update · {ann.date}
+                          {joinedChapters.length > 0 && (
+                            <div>
+                              <h3 className="text-xl font-black text-gray-900 mb-6 tracking-tight">Announcements</h3>
+                              <div className="space-y-4">
+                                {(activeChapter.announcements || []).map((ann, i) => (
+                                  <div key={i} className="p-5 bg-gray-50 rounded-2xl border border-gray-100 relative overflow-hidden group/ann">
+                                    <div className="absolute top-0 right-0 w-24 h-24 bg-fbc-green/5 rounded-full -mr-12 -mt-12 group-hover/ann:scale-110 transition-transform"></div>
+                                    <div className="text-[10px] font-black text-fbc-green uppercase tracking-widest mb-2 flex items-center gap-2">
+                                      <ShieldCheck className="w-3 h-3" /> Admin Update · {ann.date}
+                                    </div>
+                                    <h4 className="text-sm font-bold text-gray-900 mb-2">{ann.title}</h4>
+                                    <p className="text-xs text-gray-500 leading-relaxed">{ann.message}</p>
                                   </div>
-                                  <h4 className="text-sm font-bold text-gray-900 mb-2">{ann.title}</h4>
-                                  <p className="text-xs text-gray-500 leading-relaxed">{ann.message}</p>
-                                </div>
-                              ))}
+                                ))}
+                              </div>
                             </div>
-                          </div>
+                          )}
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12 bg-gray-50/50 rounded-3xl p-6 border border-gray-100">
                           <div className="bg-fbc-green/5 rounded-3xl p-6 border border-fbc-green/10">

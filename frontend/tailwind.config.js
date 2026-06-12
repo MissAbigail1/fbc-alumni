@@ -14,10 +14,11 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Roboto', 'system-ui', 'sans-serif'],
+        serif: ['Georgia', 'Garamond', 'serif'],
       },
       boxShadow: {
-        'card': '0 2px 12px rgba(0,0,0,0.08)',
-        'card-hover': '0 4px 20px rgba(0,0,0,0.12)',
+        'card': '0 1px 3px rgba(0,0,0,0.1)',
+        'card-hover': '0 4px 12px rgba(0,0,0,0.15)',
       }
     },
   },

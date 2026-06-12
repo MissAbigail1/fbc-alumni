@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { MapPin, Users, Calendar, ChevronRight, Plus, ArrowLeft, Check, ShieldCheck, X, Clock } from 'lucide-react';
+import { MapPin, ChevronRight, Plus, ArrowLeft, Check, ShieldCheck, X, Clock } from 'lucide-react';
 
 function Chapters() {
   const navigate = useNavigate();
@@ -13,7 +13,6 @@ function Chapters() {
   });
   const [pendingChapters, setPendingChapters] = useState([]); // request sent, awaiting review
   const [joinModal, setJoinModal] = useState(null);
-  const [joinReason, setJoinReason] = useState('');
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'requests'
 
   // Sync join state to localStorage
@@ -27,7 +26,6 @@ function Chapters() {
     }
   };
 
-  const [connected, setConnected] = useState([]);
   const [showStartForm, setShowStartForm] = useState(false);
   const [startForm, setStartForm] = useState({ country: '', city: '', name: '', email: '', reason: '' });
   const [submitted, setSubmitted] = useState(false);
@@ -215,6 +213,7 @@ function Chapters() {
     } else {
       setActiveChapter(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]); // Only depend on id, not chapters (chapters is constant data)
 
   const handleJoin = (e, chapter) => {
@@ -230,7 +229,6 @@ function Chapters() {
       return;
     }
     // Otherwise, open the join request modal
-    setJoinReason('');
     setJoinModal(chapter);
   };
 
@@ -239,7 +237,6 @@ function Chapters() {
     if (joinModal) {
       persistJoin(joinModal.id);
       setJoinModal(null);
-      setJoinReason('');
     }
   };
 
@@ -278,8 +275,8 @@ function Chapters() {
             </div>
 
             <div className="max-w-4xl mx-auto relative z-10 text-center px-6">
-              <div className="inline-block bg-fbc-green text-white text-xs font-bold px-4 py-1.5 rounded-full mb-6 border border-fbc-green uppercase tracking-[0.2em]">
-                Global Network
+              <div className="inline-flex items-center gap-2 bg-fbc-green/10 text-fbc-green px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">
+                <MapPin className="w-3.5 h-3.5" /> GLOBAL NETWORK
               </div>
               <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">FBC Alumni Chapters</h1>
               <p className="text-gray-600 text-xl mb-10 max-w-2xl mx-auto leading-relaxed">

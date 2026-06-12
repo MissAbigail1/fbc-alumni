@@ -119,15 +119,20 @@ function Events() {
     <div className="min-h-screen bg-gray-50 font-sans">
       <Navbar />
 
-      <div className="max-w-4xl mx-auto px-6 py-10">
-
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Events & reunions</h1>
-          <p className="text-gray-500 text-sm">
-            In-person gatherings in Freetown and virtual events for alumni worldwide
+      {/* Premium Hero Header */}
+      <div className="bg-white border-b border-gray-100 pt-16 pb-12 mb-10">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="inline-flex items-center gap-2 bg-fbc-green/10 text-fbc-green px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">
+            <CalendarDays className="w-3.5 h-3.5" /> FBC CALENDAR
+          </div>
+          <h1 className="text-5xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">Events & Reunions</h1>
+          <p className="text-gray-500 text-lg max-w-2xl leading-relaxed">
+            In-person gatherings in Freetown and virtual events for alumni worldwide. Reconnect with the FBC family.
           </p>
         </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-6 pb-20">
 
         {/* Category Tabs */}
         <div className="flex gap-1 mb-8 border-b border-gray-200">
@@ -150,7 +155,7 @@ function Events() {
           {filtered.map(event => (
             <div
               key={event.id}
-              className="bg-white rounded-2xl border border-gray-100 shadow-card hover:shadow-card-hover transition-all overflow-hidden flex">
+              className="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all overflow-hidden flex cursor-pointer group">
 
               {/* Event Image */}
               <div className="relative w-48 flex-shrink-0">

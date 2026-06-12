@@ -50,13 +50,18 @@ function Donate() {
     <div className="min-h-screen bg-gray-50 font-sans pb-20">
       <Navbar />
 
-      {/* Simple Header */}
-      <div className="text-center pt-14 pb-10 px-6">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Support FBC</h1>
-        <p className="text-gray-500 max-w-lg mx-auto text-base">
-          Choose a fund, pick an amount, and make a difference. It's that simple. 
-          Your donation empowers the next generation of Fourah Bay graduates.
-        </p>
+      {/* Premium Hero Header */}
+      <div className="bg-white border-b border-gray-100 pt-16 pb-12 mb-10">
+        <div className="max-w-4xl mx-auto px-6 text-center flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 bg-fbc-green/10 text-fbc-green px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">
+            <Heart className="w-3.5 h-3.5 fill-current" /> GIVING BACK
+          </div>
+          <h1 className="text-5xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">Support FBC</h1>
+          <p className="text-gray-500 max-w-xl mx-auto text-lg leading-relaxed">
+            Choose a fund, pick an amount, and make a difference. It's that simple. 
+            Your donation empowers the next generation of Fourah Bay graduates.
+          </p>
+        </div>
       </div>
 
       {/* Impact Stats */}

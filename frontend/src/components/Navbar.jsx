@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Bell, ChevronDown, User, Calendar, GraduationCap, Newspaper, Edit2, Settings, LogOut } from 'lucide-react';
+import { Bell, ChevronDown, User, Calendar, GraduationCap, Newspaper, Edit2, Settings, LogOut, Menu, X } from 'lucide-react';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -8,8 +8,19 @@ function Navbar() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showAboutDropdown, setShowAboutDropdown] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const aboutDropdownRef = useRef(null);
   const [readNotifications, setReadNotifications] = useState([]);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target)) {
+        setShowAboutDropdown(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const notifications = [
     { id: 1, type: 'contact', text: 'Aminata Koroma sent you a contact request', time: '2 min ago', unread: true },
@@ -41,21 +52,19 @@ function Navbar() {
       <img
         src="/fbc-alumni-logo.png"
         alt="FBC Alumni Logo"
-        className="h-14 w-auto object-contain cursor-pointer transform scale-[1.4] origin-left"
+        className="h-10 md:h-14 w-auto object-contain cursor-pointer transform md:scale-[1.4] origin-left"
         onClick={() => navigate('/')}
       />
 
-      {/* Nav Links */}
-      <div className="flex items-center gap-8">
+      {/* Desktop Nav Links */}
+      <div className="hidden lg:flex items-center gap-8">
         {navLinks.map(link => {
           if (link.label === 'About Us') {
             return (
               <div 
                 key={link.path} 
-                className="relative group"
+                className="relative"
                 ref={aboutDropdownRef}
-                onMouseEnter={() => setShowAboutDropdown(true)}
-                onMouseLeave={() => setShowAboutDropdown(false)}
               >
                 <button
                   onClick={() => setShowAboutDropdown(!showAboutDropdown)}
@@ -68,29 +77,29 @@ function Navbar() {
                   <ChevronDown size={16} className={`transition-transform ${showAboutDropdown ? 'rotate-180' : ''}`} />
                 </button>
 
-                {/* About Us Dropdown - Extended hover area */}
+                {/* About Us Dropdown - Click to toggle */}
                 {showAboutDropdown && (
-                  <div className="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden z-50 group-hover:block">
-                    <button
-                      onClick={() => {
-                        navigate('/alumni-executives');
-                        setShowAboutDropdown(false);
-                      }}
-                      className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                      onMouseEnter={() => setShowAboutDropdown(true)}
-                    >
-                      Alumni & History
-                    </button>
-                    <button
-                      onClick={() => {
-                        navigate('/constitutional-bylaws');
-                        setShowAboutDropdown(false);
-                      }}
-                      className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-100"
-                      onMouseEnter={() => setShowAboutDropdown(true)}
-                    >
-                      Constitutional and Bylaws
-                    </button>
+                  <div className="absolute left-0 top-full pt-2 w-48 z-50">
+                    <div className="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden">
+                      <button
+                        onClick={() => {
+                          navigate('/history');
+                          setShowAboutDropdown(false);
+                        }}
+                        className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        History
+                      </button>
+                      <button
+                        onClick={() => {
+                          navigate('/constitutional-bylaws');
+                          setShowAboutDropdown(false);
+                        }}
+                        className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-100"
+                      >
+                        Constitutional and Bylaws
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -113,7 +122,7 @@ function Navbar() {
       </div>
 
       {/* Right — Bell & Avatar */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3 md:gap-4">
 
         {/* Notification Bell */}
         <div className="relative">
@@ -233,7 +242,58 @@ function Navbar() {
             </div>
           )}
         </div>
+
+        {/* Mobile Menu Toggle */}
+        <button 
+          className="lg:hidden text-white/80 hover:text-white p-1 ml-1"
+          onClick={() => {
+            setShowMobileMenu(!showMobileMenu);
+            setShowNotifications(false);
+            setShowProfile(false);
+          }}
+        >
+          {showMobileMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
+
+      {/* Mobile Nav Menu */}
+      {showMobileMenu && (
+        <div className="absolute top-full left-0 right-0 bg-fbc-green border-t border-white/10 lg:hidden shadow-lg p-5 flex flex-col gap-4 animate-in slide-in-from-top-2 z-40 max-h-[85vh] overflow-y-auto">
+          {navLinks.map(link => {
+            if (link.label === 'About Us') {
+              return (
+                <div key={link.path} className="flex flex-col gap-3">
+                  <div className="text-white/60 font-black uppercase text-[10px] tracking-widest pl-2 border-l border-white/20">About Us</div>
+                  <button 
+                    onClick={() => { navigate('/history'); setShowMobileMenu(false); }}
+                    className="text-left text-white font-medium pl-4 py-1"
+                  >
+                    History
+                  </button>
+                  <button 
+                    onClick={() => { navigate('/constitutional-bylaws'); setShowMobileMenu(false); }}
+                    className="text-left text-white font-medium pl-4 py-1"
+                  >
+                    Constitutional & Bylaws
+                  </button>
+                </div>
+              );
+            }
+            return (
+              <button
+                key={link.path}
+                onClick={() => { navigate(link.path); setShowMobileMenu(false); }}
+                className={`text-left font-medium py-2 px-2 transition-colors border-l ${
+                  isActive(link.path)
+                    ? 'text-white border-fbc-gold'
+                    : 'text-white/80 border-transparent hover:text-white hover:border-white/20'
+                }`}>
+                {link.label}
+              </button>
+            );
+          })}
+        </div>
+      )}
 
     </nav>
   );

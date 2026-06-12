@@ -1,10 +1,9 @@
 import Navbar from '../components/Navbar';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Search, SlidersHorizontal, MapPin, GraduationCap } from 'lucide-react';
+
+import { Search, SlidersHorizontal, MapPin, GraduationCap, Users } from 'lucide-react';
 
 function Directory() {
-  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [sortBy, setSortBy] = useState('All');
@@ -69,8 +68,21 @@ function Directory() {
       {/* Navbar */}
      <Navbar />
 
+      {/* Premium Hero Header */}
+      <div className="bg-white border-b border-gray-100 pt-16 pb-12">
+        <div className="max-w-4xl mx-auto px-6 text-center flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 bg-fbc-green/10 text-fbc-green px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">
+            <Users className="w-3.5 h-3.5" /> GLOBAL NETWORK
+          </div>
+          <h1 className="text-5xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">Alumni Directory</h1>
+          <p className="text-gray-500 max-w-xl mx-auto text-lg leading-relaxed">
+            Connect with thousands of graduates around the world. Find mentors, reconnect with classmates, and expand your professional network.
+          </p>
+        </div>
+      </div>
+
       {/* Top Bar — Search & Filters */}
-      <div className="bg-white border-b border-gray-100 px-10 py-4">
+      <div className="bg-white border-b border-gray-100 px-10 py-4 sticky top-0 z-40 shadow-sm">
         <div className="flex items-center justify-between gap-4">
 
           {/* Search */}
@@ -158,7 +170,7 @@ function Directory() {
         {filtered.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {filtered.map(alumni => (
-              <div key={alumni.id} className="bg-white rounded-md overflow-hidden shadow-card hover:shadow-card-hover transition-all">
+              <div key={alumni.id} className="bg-white rounded-[24px] overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all group">
 
                 {/* Cover Image */}
                 <div className="relative h-28">
@@ -208,8 +220,8 @@ function Directory() {
                     disabled={connected.includes(alumni.id)}
                     className={`w-full text-[11px] font-bold py-2 rounded-sm transition-all border
                       ${connected.includes(alumni.id)
-                        ? 'bg-fbc-green-light text-fbc-green border-fbc-green cursor-default'
-                        : 'bg-fbc-green text-white border-fbc-green hover:bg-fbc-green-dark'}`}>
+                        ? 'bg-fbc-green/10 text-fbc-green border-transparent cursor-default'
+                        : 'bg-white text-gray-700 border-gray-200 hover:border-fbc-green hover:text-fbc-green hover:shadow-md'}`}>
                     {connected.includes(alumni.id) ? '✓ Connected' : 'Connect'}
                   </button>
                 </div>

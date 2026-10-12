@@ -1,8 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('restores the requested public navigation surface including Directory', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+  expect(screen.getByText('Home')).toBeInTheDocument();
+  expect(screen.getByText('History')).toBeInTheDocument();
+  expect(screen.getByText('Constitution')).toBeInTheDocument();
+  expect(screen.getByText('Events')).toBeInTheDocument();
+  expect(screen.getByText('Updates')).toBeInTheDocument();
+  expect(screen.getByText('Directory')).toBeInTheDocument();
+  expect(screen.getByText('Contact')).toBeInTheDocument();
 });

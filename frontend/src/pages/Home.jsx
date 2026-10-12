@@ -1,15 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, ArrowUpRight, GraduationCap, Users, CalendarDays, HeartHandshake, Calendar, Clock, MapPin, ChevronDown } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { ArrowRight, ArrowUpRight, GraduationCap, CalendarDays, BookOpen, Newspaper, Calendar, MapPin } from 'lucide-react';
 import BicentennialCountdown from '../components/BicentennialCountdown';
 
 function Home() {
   const navigate = useNavigate();
-  const [showAboutDropdown, setShowAboutDropdown] = useState(false);
-  const [showJoinModal, setShowJoinModal] = useState(false);
-  const [selectedChapter, setSelectedChapter] = useState(null);
-  const aboutDropdownRef = useRef(null);
-  const joinedChapterId = localStorage.getItem('fbc_joined_chapter');
 
   // IMAGE STRATEGY FOR HOMEPAGE
   // All images should be local files in public/images/ directory
@@ -23,194 +17,122 @@ function Home() {
   // - fbc-graduates.jpg: Alumni photo showing class diversity, diversity of professions
   // All images have gray background fallback if missing. Use meaningful alt text.
   
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target)) {
-        setShowAboutDropdown(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   const events = [
     {
-      id: 1,
-      image: '/images/fbc-bicentennial.jpg',
-      date: '31 Jul 2026',
-      title: 'FBC200 Conference Call for Papers',
-      location: 'Online Submission',
-      type: 'Academic / Bicentenary',
-      desc: 'Scholars, alumni, researchers, and thought leaders are invited to submit proposals for the FBC200 international conference exploring FBC\'s legacy and the future of higher education.',
-      attendeeCount: null,
-      chapterId: 'sl',
-      cta: 'Learn More'
-      // TODO: Replace with FBC bicentenary branded image or conference poster
-    },
-    {
       id: 2,
-      image: '/images/fbc-celebration.jpg',
-      date: 'February 2027',
-      title: 'FBC Bicentenary Celebration Week',
-      location: 'Fourah Bay College, Freetown',
-      type: 'Alumni / National Celebration',
-      desc: 'A week of celebration bringing together alumni, students, and the community to mark 200 years of Fourah Bay College\'s legacy and leadership across Africa.',
+      image: '/images/fbc-building.jpg',
+      date: 'September 2026',
+      title: 'Alumni Association Dinner',
+      location: 'TBC',
+      type: 'In person',
+      desc: 'An elegant alumni dinner bringing together FBC graduates from across the world to reconnect, celebrate, and strengthen the alumni bond.',
       attendeeCount: null,
       chapterId: 'sl',
       cta: 'Learn More'
     },
     {
       id: 3,
-      image: '/images/fbc-international-conference.jpg',
-      date: '8–10 Apr 2027',
-      title: 'Fourah Bay College at 200 International Conference',
-      location: 'Bintumani Hotel, Aberdeen, Freetown',
-      type: 'Conference',
-      desc: 'An international conference bringing together scholars, alumni, and thought leaders to reflect on FBC\'s history, impact, and future.',
+      image: '/images/fbc-building.jpg',
+      date: 'October 2026',
+      title: 'Beach Fiesta',
+      location: 'Freetown, Sierra Leone',
+      type: 'In person',
+      desc: 'A fun-filled beach celebration for FBC alumni and friends — music, food, and community spirit on the shores of Freetown.',
       attendeeCount: null,
       chapterId: 'sl',
-      cta: 'View Details'
-      // TODO: Replace with FBC campus photo, Bintumani Hotel, or conference event image
+      cta: 'Learn More'
     }
   ];
 
-  // Prioritize events from the user's joined chapter
-  const sortedEvents = [...events].sort((a, b) => {
-    if (a.chapterId === joinedChapterId) return -1;
-    if (b.chapterId === joinedChapterId) return 1;
-    return 0;
-  });
-
-  const handleJoinChapter = (e, chapter) => {
-    e.stopPropagation();
-    // Check if user is logged in
-    if (!joinedChapterId) {
-      // Not logged in - redirect to signup
-      navigate('/signup');
-    } else {
-      // Logged in - show the confirmation modal
-      setSelectedChapter(chapter);
-      setShowJoinModal(true);
-    }
-  };
-
-  const confirmJoinChapter = () => {
-    if (selectedChapter) {
-      localStorage.setItem('fbc_joined_chapter', selectedChapter.id);
-      setShowJoinModal(false);
-      setSelectedChapter(null);
-      // Optionally refresh the page or update state
-      window.location.reload();
-    }
-  };
 
   return (
     <div className="min-h-screen bg-stone-50 font-sans">
 
       {/* Hero Section */}
-      <div className="relative min-h-screen bg-white">
+      <div className="relative bg-white min-h-screen lg:min-h-[680px] xl:min-h-[760px]">
 
-        {/* Background Image - REPLACE WITH REAL FBC CAMPUS OR ALUMNI GATHERING PHOTO */}
-        {/* TODO: Replace /fbc-building.png with high-quality photo of FBC campus (Mount Aureol), main building, or alumni at event */}
+        {/* Background Image */}
         <img
           src="/fbc-building.png"
           alt="FBC Campus - Mount Aureol"
           className="absolute inset-0 w-full h-full object-cover"
         />
 
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black/50"></div>
+        {/* Moderate overlay preserves the photograph while keeping the white text readable. */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.28) 50%, rgba(0, 0, 0, 0.40) 100%)'
+          }}
+        />
 
-        {/* Navbar */}
-        <nav className="relative z-20 flex items-center justify-between px-10 py-6">
-          <img
-            src="/fbc-alumni-logo.png"
-            alt="FBC Alumni Logo"
-            className="h-24 w-auto object-contain"
-          />
-          <div className="flex items-center gap-8">
-            <div 
-              className="relative"
-              ref={aboutDropdownRef}
-            >
-              <button 
-                onClick={() => setShowAboutDropdown(!showAboutDropdown)}
-                className="flex items-center gap-1 text-white text-sm hover:text-fbc-gold transition-colors">
-                About Us
-                <ChevronDown size={16} className={`transition-transform ${showAboutDropdown ? 'rotate-180' : ''}`} />
-              </button>
+        {/* ── Main content — centred vertically in the upper two-thirds ── */}
+        <div className="relative z-10 flex flex-col items-center justify-center text-center px-6
+            pt-44 pb-48 md:pt-56 md:pb-56 lg:min-h-[680px] lg:pt-40 lg:pb-40
+            xl:min-h-[760px] xl:pt-48 xl:pb-48">
 
-              {showAboutDropdown && (
-                <div className="absolute left-0 top-full pt-2 w-48 z-50">
-                  <div className="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden">
-                    <button
-                      onClick={() => {
-                        navigate('/history');
-                        setShowAboutDropdown(false);
-                      }}
-                      className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                    >
-                      History
-                    </button>
-                    <button
-                      onClick={() => {
-                        navigate('/constitutional-bylaws');
-                        setShowAboutDropdown(false);
-                      }}
-                      className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-100"
-                    >
-                      Constitutional and Bylaws
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-            <button onClick={() => navigate('/directory')} className="text-white text-sm hover:text-fbc-gold transition-colors">Directory</button>
-            <button onClick={() => navigate('/events')} className="text-white text-sm hover:text-fbc-gold transition-colors">Events</button>
-            <button onClick={() => navigate('/donate')} className="text-white text-sm hover:text-fbc-gold transition-colors">Give back</button>
-            <button
-              onClick={() => navigate('/signup')}
-              className="bg-fbc-gold text-white text-sm font-semibold px-5 py-2 rounded-lg hover:bg-yellow-600 transition-all">
-              Join now
-            </button>
-          </div>
-        </nav>
-
-        {/* Hero Text */}
-        <div className="relative z-10 flex flex-col items-center justify-center text-center px-8 py-24">
-          <span className="inline-block bg-white/10 backdrop-blur-md text-white/95 text-xs font-semibold px-4 py-2 rounded-lg mb-8 border border-white/20 tracking-wide">
+          {/* Location badge */}
+          <span className="inline-block bg-white/10 backdrop-blur-md text-white/80
+                           text-[10px] font-semibold px-5 py-1.5 rounded-md mb-8
+                           border border-white/20 tracking-[0.2em] uppercase">
             Fourah Bay College · Est. 1827 · Mount Aureol, Freetown
           </span>
-          <h1 className="text-6xl font-bold leading-tight mb-6 max-w-4xl text-white drop-shadow-lg">
-            Connecting Fourah Bay College<br />Alumni Across Generations
+
+          <h1 className="text-3xl sm:text-4xl md:text-[3.5rem] lg:text-[3.25rem] xl:text-[3.5rem] font-semibold leading-[1.3] mb-6
+                         max-w-3xl text-white drop-shadow-md tracking-tight">
+            <span className="block">Connecting Fourah Bay College</span>
+            <span className="block mt-2">Alumni Across Generations</span>
           </h1>
-          <p className="text-white/85 text-lg leading-relaxed mb-10 max-w-2xl font-light">
-            From Mount Aureol to the world, the FBC alumni community continues to connect, mentor, support students, strengthen chapters, and give back to the college that shaped generations of leaders.
+
+          {/* Description */}
+          <p className="text-white/75 text-base leading-[1.85] mb-10
+                        max-w-[600px] font-light">
+            The official home of the Fourah Bay College Alumni Association. Stay connected
+            with alumni news, upcoming events, our history, leadership, and the continuing
+            legacy of Sierra Leone's oldest university.
           </p>
-          <div className="flex items-center gap-4">
+
+          {/* CTA Buttons — slimmer, elegant */}
+          <div className="flex items-center gap-3">
             <button
-              onClick={() => navigate('/signup')}
-              className="bg-fbc-gold text-white font-semibold px-8 py-3.5 rounded-lg hover:bg-yellow-600 transition-all flex items-center gap-2 text-sm shadow-lg hover:-translate-y-0.5">
-              Join the Alumni Network <ArrowRight className="w-4 h-4" />
+              onClick={() => navigate('/events')}
+              className="bg-fbc-gold text-white font-semibold px-7 py-2.5 rounded-lg
+                         hover:bg-yellow-600 transition-all flex items-center gap-2
+                         text-sm shadow-md hover:-translate-y-0.5">
+              View Upcoming Events <ArrowRight className="w-3.5 h-3.5" />
             </button>
             <button
-              onClick={() => navigate('/chapters')}
-              className="bg-white/15 backdrop-blur-md text-white text-sm font-medium px-8 py-3.5 rounded-lg border border-white/30 hover:bg-white/25 transition-all shadow-sm">
-              Explore Chapters
+              onClick={() => navigate('/history')}
+              className="bg-white/12 backdrop-blur-md text-white/90 text-sm font-medium
+                         px-7 py-2.5 rounded-lg border border-white/25
+                         hover:bg-white/20 transition-all">
+              Read Our Story
             </button>
           </div>
+
         </div>
 
-        {/* Bottom stat chips */}
-        <div className="absolute bottom-10 left-10 z-10 flex gap-4">
+        {/* ── Statistics — absolute bottom layer, centred, floats independently ── */}
+        <div className="absolute bottom-0 left-0 right-0 z-10
+                        hidden md:flex justify-center gap-5 px-6 md:px-16 pb-10 lg:pb-8">
           {[
-            { val: '5,000+', label: 'Alumni members' },
-            { val: '3', label: 'Active chapters' },
-            { val: '42', label: 'Countries' },
+            { val: '1827',      label: 'Founded' },
+            { val: '200 Years', label: 'Legacy of Excellence' },
+            { val: 'Global',    label: 'Alumni Community' },
+            { val: 'FBC200',    label: 'Bicentenary Celebration' },
           ].map((stat, i) => (
-            <div key={i} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg px-5 py-3 text-white shadow-sm">
-              <div className="text-xl font-bold">{stat.val}</div>
-              <div className="text-xs text-white/70 mt-0.5 font-medium">{stat.label}</div>
+            <div
+              key={i}
+              className="bg-white/8 backdrop-blur-sm border border-white/12
+                         rounded-xl px-6 py-3.5 text-white text-center
+                         shadow-sm min-w-[140px]">
+              <div className="text-base font-bold tracking-wide leading-none">
+                {stat.val}
+              </div>
+              <div className="text-[9px] text-white/55 mt-1.5 font-medium
+                              uppercase tracking-[0.18em]">
+                {stat.label}
+              </div>
             </div>
           ))}
         </div>
@@ -218,7 +140,8 @@ function Home() {
       </div>
 
       {/* Content Section Below Hero */}
-      <div className="px-16 py-20 grid grid-cols-2 gap-16 items-center border-b border-stone-200 bg-stone-50">
+      <div className="px-6 md:px-16 py-12 md:py-20 lg:py-16 xl:py-20 border-b border-stone-200 bg-stone-50">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
         <div>
           <span className="text-fbc-green text-xs font-semibold uppercase tracking-wider mb-4 block border-l-2 border-fbc-green pl-3">
             Heritage & Connection
@@ -230,9 +153,9 @@ function Home() {
             This platform exists to strengthen the bonds that connect our global FBC family. Whether you graduated decades ago or recently, you're part of a legacy of excellence, service, and impact that extends across continents.
           </p>
           <button
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate('/history')}
             className="bg-fbc-green text-white font-semibold px-7 py-3 rounded-lg hover:bg-fbc-green-dark transition-all text-sm flex items-center gap-2 w-fit shadow-sm hover:shadow-md">
-            Join the network <ArrowRight className="w-4 h-4" />
+            Explore Our History <ArrowRight className="w-4 h-4" />
           </button>
         </div>
         <div className="relative bg-stone-200 rounded-xl">
@@ -240,7 +163,7 @@ function Home() {
           <img
             src="/images/fbc-graduates.jpg"
             alt="FBC Alumni and Graduates"
-            className="rounded-xl w-full h-80 object-cover shadow-md"
+            className="rounded-xl w-full h-80 lg:h-auto lg:aspect-[4/3] object-cover shadow-md"
           />
           <div className="absolute -bottom-6 -left-6 bg-white rounded-lg shadow-md px-5 py-4 flex items-center gap-3 border border-stone-100">
             <div className="w-10 h-10 bg-fbc-green-light rounded-lg flex items-center justify-center text-fbc-green">
@@ -252,21 +175,26 @@ function Home() {
             </div>
           </div>
         </div>
+        </div>
       </div>
 
+      {/* Bicentennial Countdown Section */}
+      <BicentennialCountdown />
+
       {/* 3 Feature Cards */}
-      <div className="px-16 py-16 bg-stone-50">
+      <div className="px-6 md:px-16 py-12 md:py-16 lg:py-12 xl:py-16 bg-stone-50">
+        <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-serif font-bold text-gray-900 mb-3 text-center">
-          How to get involved
+          Explore the Alumni Association
         </h2>
         <p className="text-gray-600 text-base text-center mb-12 max-w-2xl mx-auto">
-          Three ways to stay connected with the FBC community and advance our shared mission.
+          Everything you need to stay connected with the Fourah Bay College community.
         </p>
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-5">
           {[
-            { title: 'Find Your FBC Network', desc: 'Search our alumni directory to reconnect with classmates by class year, faculty, chapter, or profession.', link: 'Browse directory', page: '/directory', icon: <Users className="w-5 h-5 text-fbc-green" /> },
-            { title: 'Join Chapter Activities', desc: 'Connect with alumni through local gatherings, professional meetups, student mentoring, and chapter events.', link: 'View events', page: '/events', icon: <CalendarDays className="w-5 h-5 text-fbc-green" /> },
-            { title: 'Support FBC Students', desc: 'Give scholarships, mentor emerging leaders, support campus initiatives, and strengthen Fourah Bay College for future generations.', link: 'Get involved', page: '/donate', icon: <HeartHandshake className="w-5 h-5 text-fbc-green" /> },
+            { title: 'Discover Our History', desc: 'Explore the story of Fourah Bay College, its alumni association, milestones, and lasting contribution to Sierra Leone and beyond.', link: 'Read History', page: '/history', icon: <BookOpen className="w-5 h-5 text-fbc-green" /> },
+            { title: 'Attend Upcoming Events', desc: 'Stay informed about alumni gatherings, bicentenary celebrations, lectures, networking opportunities and official association activities.', link: 'View Events', page: '/events', icon: <CalendarDays className="w-5 h-5 text-fbc-green" /> },
+            { title: 'Stay Updated', desc: 'Read the latest announcements, alumni news, leadership updates and important information from the association.', link: 'Latest Updates', page: '/updates', icon: <Newspaper className="w-5 h-5 text-fbc-green" /> },
           ].map((card, i) => (
             <div
               key={i}
@@ -283,13 +211,84 @@ function Home() {
             </div>
           ))}
         </div>
+        </div>
       </div>
 
-      {/* Bicentennial Countdown Section */}
-      <BicentennialCountdown />
+      {/* Alumni Membership Section */}
+      <section className="bg-white px-6 md:px-16 py-14 md:py-24 border-y border-stone-200">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16 items-center">
+            <div className="lg:pr-8">
+              <span className="text-fbc-green text-xs font-semibold uppercase tracking-[0.2em] mb-4 block border-l-2 border-fbc-gold pl-4">
+                Membership
+              </span>
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 leading-tight mb-6">
+                HOW TO BECOME AN ALUMNI
+              </h2>
+              <p className="text-gray-600 leading-relaxed text-sm md:text-base mb-8 max-w-xl">
+                Were you part of the Fourah Bay College family? If you were formally enrolled at Fourah Bay College to pursue a degree, diploma, certificate or licentiate course, you are eligible to become an Alumni Member of the Fourah Bay College Alumni Association.
+              </p>
+              <button
+                type="button"
+                disabled
+                className="bg-fbc-green text-white/70 font-semibold px-7 py-3 rounded-lg text-sm flex items-center gap-2 shadow-sm cursor-not-allowed opacity-75"
+                aria-disabled="true">
+                Become a Member <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div>
+              <img
+                src="/images/history/fbc-alumni-reunion-banquet-2011.jpg"
+                alt="Fourah Bay College alumni meeting together"
+                className="w-full aspect-[16/10] object-cover border border-stone-200"
+              />
+            </div>
+          </div>
+
+          <div className="mt-14 md:mt-20 border-t border-stone-300 pt-8 md:pt-10">
+            <div className="flex items-center justify-between mb-7">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-fbc-green">The membership journey</p>
+              <span className="hidden sm:block h-px flex-1 bg-fbc-gold/50 ml-6" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
+              {[
+                {
+                  number: '01',
+                  title: 'CHECK YOUR ELIGIBILITY',
+                  description: 'Formerly enrolled at Fourah Bay College in a qualifying degree, diploma, certificate or licentiate programme.'
+                },
+                {
+                  number: '02',
+                  title: 'REGISTER',
+                  description: 'Complete the Alumni Association membership registration process.'
+                },
+                {
+                  number: '03',
+                  title: 'PAY YOUR DUES',
+                  description: 'Pay the applicable registration fee and annual membership dues.'
+                },
+                {
+                  number: '04',
+                  title: 'STAY CONNECTED',
+                  description: 'Join the Alumni Association and stay connected with fellow alumni, events, activities and the continued development of Fourah Bay College.'
+                }
+              ].map(step => (
+                <div key={step.number} className="border-t border-stone-300 pt-4">
+                  <div className="flex items-baseline gap-3 mb-3">
+                    <span className="text-fbc-gold text-xs font-semibold tracking-[0.16em]">{step.number}</span>
+                    <h3 className="text-sm font-bold text-gray-900 tracking-wide">{step.title}</h3>
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed">{step.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Upcoming Events Section */}
-      <div className="bg-stone-50 px-16 py-20 border-b border-stone-200">
+      <div className="bg-stone-50 px-6 md:px-16 py-12 md:py-20 border-b border-stone-200">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-end justify-between mb-10">
             <div>
@@ -306,20 +305,19 @@ function Home() {
           </div>
 
           <div className="flex flex-col gap-4">
-            {sortedEvents.map(event => (
+            {events.map(event => (
               <div
                 key={event.id}
                 onClick={() => navigate('/events')}
-                className={`bg-white rounded-lg border transition-all overflow-hidden flex cursor-pointer group 
-                  ${event.chapterId === joinedChapterId ? 'border-fbc-green ring-2 ring-fbc-green/10 shadow-md' : 'border-stone-200 shadow-sm hover:shadow-md'}`}>
-                <div className="relative w-48 flex-shrink-0 overflow-hidden bg-stone-200">
+                className="bg-white rounded-lg border border-stone-200 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col sm:flex-row cursor-pointer group">
+                <div className="relative w-full sm:w-48 h-48 sm:h-auto flex-shrink-0 overflow-hidden bg-stone-200">
                   <img src={event.image} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className={`absolute bottom-3 left-3 text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-lg shadow-lg
                     ${event.type === 'Virtual' ? 'bg-blue-600 text-white' : 'bg-fbc-green text-white'}`}>
                     {event.type}
                   </div>
                 </div>
-                <div className="flex-1 px-8 py-6 flex items-center justify-between gap-4">
+                <div className="flex-1 px-8 py-6 flex items-center">
                   <div className="flex-1">
                     <div className="flex items-center gap-4 mb-3">
                       <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
@@ -335,14 +333,6 @@ function Home() {
                       <span>{event.location}</span>
                     </div>
                   </div>
-                  <div className="flex flex-col items-end gap-3 flex-shrink-0">
-                    {event.attendeeCount && (
-                      <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{event.attendeeCount} attending</span>
-                    )}
-                    <button className="px-6 py-2 bg-fbc-green text-white text-xs font-semibold rounded-lg border border-fbc-green hover:bg-fbc-green-dark transition-all">
-                      {event.cta || 'View Details'}
-                    </button>
-                  </div>
                 </div>
               </div>
             ))}
@@ -355,18 +345,23 @@ function Home() {
       {/* - fbc-float-parade.jpg: Alumni Float Parade from Cline Town to Stadium */}
       {/* - fbc-alumni-meeting.jpg: Alumni meeting with FBC Management and Bicentennial Committee */}
       {/* - fbc-innovation-seed-fund.jpg: Innovation Seed Fund launch event or FBC campus */}
-      <div className="bg-stone-50 px-16 py-20">
+      <div className="bg-stone-50 px-6 md:px-16 py-12 md:py-20">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-end justify-between mb-10">
             <div>
               <span className="text-fbc-green text-xs font-semibold uppercase tracking-wider mb-3 block border-l-2 border-fbc-green pl-3">
-                News & Updates
+                News &amp; Updates
               </span>
               <h2 className="text-3xl font-serif font-bold text-gray-900">Latest From FBC</h2>
             </div>
+            <button
+              onClick={() => navigate('/updates')}
+              className="text-fbc-green text-sm font-semibold uppercase tracking-wide hover:underline flex items-center gap-2 transition-all">
+              All updates <ArrowUpRight className="w-4 h-4" />
+            </button>
           </div>
 
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {[
               {
                 category: 'FBC200 / Alumni',
@@ -390,11 +385,14 @@ function Home() {
                 date: 'March 18, 2026'
               }
             ].map((post, i) => (
-              <div key={i} className="bg-white rounded-lg overflow-hidden border border-stone-200 shadow-sm hover:shadow-md transition-all group cursor-pointer">
+              <div
+                key={i}
+                onClick={() => navigate('/updates')}
+                className="bg-white rounded-lg overflow-hidden border border-stone-200 shadow-sm hover:shadow-md transition-all group cursor-pointer">
                 <div className="h-48 overflow-hidden bg-gray-200 flex items-center justify-center">
-                  <img 
-                    src={post.image} 
-                    alt={post.title} 
+                  <img
+                    src={post.image}
+                    alt={post.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   {/* TODO: Replace /images/fbc-*.jpg with real photos of: 1) Float Parade, 2) Alumni Meeting, 3) Innovation Fund event */}
@@ -406,14 +404,9 @@ function Home() {
                     {post.title}
                   </h3>
                   <p className="text-sm text-gray-600 mb-4 leading-relaxed line-clamp-2">{post.desc}</p>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      alert("Opening full article...");
-                    }}
-                    className="text-sm font-semibold text-fbc-green flex items-center gap-1 group-hover:underline">
+                  <span className="text-sm font-semibold text-fbc-green flex items-center gap-1 group-hover:underline">
                     Read more <ArrowUpRight className="w-3.5 h-3.5" />
-                  </button>
+                  </span>
                 </div>
               </div>
             ))}
@@ -421,95 +414,76 @@ function Home() {
         </div>
       </div>
 
-      {/* Chapters Preview Section */}
-      <div className="bg-white px-16 py-20 border-t border-stone-200">
+
+      {/* Global Alumni Network — informational showcase, no interactive elements */}
+      <div className="bg-white px-6 md:px-16 py-12 md:py-20 border-t border-stone-200">
         <div className="max-w-6xl mx-auto">
-          <div className="flex items-end justify-between mb-12">
-            <div>
-              <span className="text-fbc-green text-xs font-semibold uppercase tracking-wider mb-3 block border-l-2 border-fbc-green pl-3">
-                Our Chapters
-              </span>
-              <h2 className="text-3xl font-serif font-bold text-gray-900">Global Alumni Network</h2>
-            </div>
-            <button
-              onClick={() => navigate('/chapters')}
-              className="text-fbc-green text-sm font-semibold uppercase tracking-wide hover:underline flex items-center gap-2 transition-all">
-              Explore chapters <ArrowUpRight className="w-4 h-4" />
-            </button>
+          <div className="mb-12">
+            <span className="text-fbc-green text-xs font-semibold uppercase tracking-wider mb-3 block border-l-2 border-fbc-green pl-3">
+              Our Chapters
+            </span>
+            <h2 className="text-3xl font-serif font-bold text-gray-900">Global Alumni Network</h2>
+            <p className="text-gray-600 mt-3 max-w-2xl text-sm leading-relaxed">
+              Fourah Bay College alumni are connected across five continents. Our chapters bring the FBC community together wherever alumni have settled.
+            </p>
           </div>
 
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
             {[
               {
-                id: 'sl',
                 name: 'Sierra Leone Chapter',
                 flag: '🇸🇱',
                 city: 'Freetown, Sierra Leone',
                 image: '/images/fbc-campus-freetown.jpg',
-                members: 3200,
-                desc: 'Our home chapter in Freetown connecting local alumni, engaging students, supporting the college, and leading FBC\'s bicentenary celebration.',
-                activities: 'Student support, alumni events, campus projects'
-                // TODO: Replace with FBC campus photo from Mount Aureol or Freetown alumni event
+                desc: 'Our home chapter in Freetown — the heartbeat of the association, connecting local alumni and supporting the college\'s bicentenary legacy.',
               },
               {
-                id: 'uk',
+                name: 'Nigeria Chapter',
+                flag: '🇳🇬',
+                city: 'Lagos & Abuja, Nigeria',
+                image: '/images/fbc-building.jpg',
+                desc: 'FBC alumni across Nigeria forging professional networks and celebrating the ties between two of West Africa\'s great academic traditions.',
+              },
+              {
                 name: 'United Kingdom Chapter',
                 flag: '🇬🇧',
                 city: 'London, United Kingdom',
                 image: '/images/fbc-uk-chapter.jpg',
-                members: 284,
-                desc: 'FBC alumni in the UK staying connected through networking events, raising funds for scholarships, and celebrating our shared heritage.',
-                activities: 'Scholarships, reunions, fundraising'
-                // TODO: Replace with UK chapter event photo or alumni gathering
+                desc: 'FBC alumni in the UK united through culture, networking events, and a shared pride in Sierra Leone\'s oldest university.',
               },
               {
-                id: 'usa',
-                name: 'North America Chapter',
-                flag: '🌎',
-                city: 'USA / Canada',
+                name: 'USA Chapter',
+                flag: '🇺🇸',
+                city: 'United States',
                 image: '/images/fbc-north-america-chapter.jpg',
-                members: 196,
-                desc: 'FBC alumni across North America connecting through mentorship, professional networking, and supporting the college\'s mission from afar.',
-                activities: 'Mentorship, networking, giving'
-                // TODO: Replace with North America chapter event or alumni networking photo
-              }
-            ].map(chapter => (
+                desc: 'Alumni across the United States staying connected through mentorship, community events, and support for FBC\'s ongoing mission.',
+              },
+              {
+                name: 'Gambia Chapter',
+                flag: '🇬🇲',
+                city: 'Banjul, Gambia',
+                image: '/images/fbc-building.jpg',
+                desc: 'FBC alumni in The Gambia maintaining strong bonds with the college and contributing to the growth of the wider alumni community.',
+              },
+            ].map((chapter, i) => (
               <div
-                key={chapter.id}
-                onClick={() => navigate(`/chapters/${chapter.id}`)}
-                className={`group relative h-[400px] rounded-2xl overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-all border bg-stone-200
-                  ${chapter.id === joinedChapterId ? 'border-fbc-green ring-4 ring-fbc-green/10' : 'border-stone-200'}`}>
-                <img src={chapter.image} alt={chapter.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
-                <div className="absolute top-6 left-6 flex items-center gap-2">
-                  <span className="text-3xl drop-shadow-lg">{chapter.flag}</span>
-                  {chapter.id === joinedChapterId && (
-                    <span className="bg-fbc-green text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide border border-white/20">
-                      Your Chapter
-                    </span>
-                  )}
+                key={i}
+                className="group relative h-[380px] rounded-2xl overflow-hidden shadow-md border border-stone-200 bg-stone-200">
+                <img
+                  src={chapter.image}
+                  alt={chapter.name}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+                <div className="absolute top-5 left-5">
+                  <span className="text-2xl drop-shadow-lg">{chapter.flag}</span>
                 </div>
-                <div className="absolute bottom-8 left-8 right-8 text-white">
-                  <div className="flex items-center gap-1.5 text-white/70 text-xs font-semibold uppercase tracking-wide mb-2">
+                <div className="absolute bottom-6 left-6 right-6 text-white">
+                  <div className="flex items-center gap-1.5 text-white/60 text-[10px] font-semibold uppercase tracking-widest mb-1.5">
                     <MapPin className="w-3 h-3" /> {chapter.city}
                   </div>
-                  <h3 className="text-xl font-bold mb-1 leading-tight">{chapter.name}</h3>
-                  <p className="text-white/50 text-xs uppercase tracking-wide font-medium mb-3">{chapter.activities}</p>
-                  <p className="text-white/60 text-sm leading-relaxed mb-6 line-clamp-2">
-                    {chapter.desc}
-                  </p>
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="inline-block bg-white/15 backdrop-blur-md border border-white/20 rounded-lg px-4 py-2">
-                      <div className="font-semibold text-sm">{chapter.members.toLocaleString()}</div>
-                      <div className="text-xs text-white/60 uppercase font-semibold tracking-wide">Members</div>
-                    </div>
-                    <button 
-                      onClick={(e) => handleJoinChapter(e, chapter)}
-                      className={`px-6 py-2.5 rounded-lg font-semibold text-sm transition-all shadow-lg hover:-translate-y-1 active:scale-95 whitespace-nowrap 
-                      ${chapter.id === joinedChapterId ? 'bg-white/10 text-white border border-white/30 hover:bg-white/15' : 'bg-fbc-green text-white hover:bg-fbc-green-dark'}`}>
-                      {chapter.id === joinedChapterId ? 'View Chapter' : 'Join Chapter'}
-                    </button>
-                  </div>
+                  <h3 className="text-base font-bold leading-tight mb-2">{chapter.name}</h3>
+                  <p className="text-white/65 text-xs leading-relaxed line-clamp-3">{chapter.desc}</p>
                 </div>
               </div>
             ))}
@@ -518,7 +492,7 @@ function Home() {
       </div>
 
       {/* Meet the Alumni Leadership Section */}
-      <div className="bg-stone-50 px-16 py-20 border-t border-stone-200">
+      <div className="bg-white px-6 md:px-16 py-12 md:py-20 border-t border-stone-200">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12 flex flex-col items-center">
             <span className="text-fbc-green text-xs font-semibold uppercase tracking-wider mb-3 block border-l-2 border-fbc-green pl-3">
@@ -562,60 +536,10 @@ function Home() {
               </div>
             ))}
           </div>
-
-          <div className="text-center mt-12">
-            {/* Link to /leadership page (can be created later) */}
-            <button
-              onClick={() => navigate('/leadership')}
-              className="inline-flex items-center gap-1.5 px-6 py-2.5 border border-gray-300 text-gray-700 hover:bg-gray-100 font-bold rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer"
-            >
-              View Full Leadership
-            </button>
-          </div>
         </div>
       </div>
 
-      {/* Donation CTA Strip */}
-      <div className="bg-fbc-green mx-16 mb-16 rounded-xl px-12 py-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-lg relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
-        <div className="max-w-2xl relative z-10">
-          <h3 className="text-white text-3xl font-serif font-bold mb-4">
-            Give back to Fourah Bay College
-          </h3>
-          <p className="text-white/80 text-base leading-relaxed font-light">
-            Your gift funds scholarships, campus improvements, and faculty research that advances our mission of educational excellence. Join fellow alumni in investing in the next generation of African leaders.
-          </p>
-        </div>
-        <button
-          onClick={() => navigate('/donate')}
-          className="bg-fbc-gold text-fbc-green font-bold px-10 py-4 rounded-lg hover:bg-yellow-500 transition-all shadow-md hover:-translate-y-1 active:scale-95 whitespace-nowrap flex items-center gap-2 relative z-10">
-          Make a gift <ArrowRight className="w-5 h-5" />
-        </button>
-      </div>
 
-      {/* Join Chapter Modal */}
-      {showJoinModal && selectedChapter && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Join {selectedChapter.name}?</h2>
-            <p className="text-gray-600 mb-6 leading-relaxed">
-              Thank you for your interest in joining {selectedChapter.name}. The chapter president will review your request and get back to you shortly.
-            </p>
-            <div className="space-y-3">
-              <button
-                onClick={confirmJoinChapter}
-                className="w-full bg-fbc-green text-white font-bold py-3 rounded-lg hover:bg-fbc-green-dark transition-all">
-                Confirm
-              </button>
-              <button
-                onClick={() => setShowJoinModal(false)}
-                className="w-full bg-gray-200 text-gray-800 font-bold py-3 rounded-lg hover:bg-gray-300 transition-all">
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

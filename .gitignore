@@ -1,0 +1,24 @@
+# Dependencies and generated frontend build
+frontend/node_modules/
+frontend/build/
+
+# Environment variables and local secrets
+.env
+.env.*
+!.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+backend/.env
+backend/.env.*
+
+# Local database connection credentials
+backend/db.php
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local PHP database configuration
+/backend/db.php

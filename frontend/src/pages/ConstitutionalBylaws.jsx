@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Printer, FileDown, FileText } from 'lucide-react';
+import { Printer, FileDown, FileText } from 'lucide-react';
 
 function ConstitutionalBylaws() {
-  const navigate = useNavigate();
   const [showDownloadModal, setShowDownloadModal] = useState(false);
 
   // Function to render text with smart formatting
@@ -359,44 +357,22 @@ As financial and human resources allow, the Association will provide general org
 
   return (
     <div className="min-h-screen bg-stone-50 font-sans pb-20 print:bg-white print:pb-0">
-      {/* Premium Institutional Hero Header */}
-      <div className="relative h-[280px] flex items-center justify-center overflow-hidden print:hidden">
-        <div className="absolute inset-0 bg-fbc-green z-0" />
-        {/* Subtle dark overlay to make text more readable and feel formal */}
-        <div className="absolute inset-0 bg-black/15 z-0" />
-        <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full blur-[60px] -mr-20 -mt-20"></div>
 
-        <div className="relative z-20 text-center w-full px-6 flex flex-col items-center">
-          <button
-            onClick={() => navigate('/')}
-            className="flex items-center gap-2 hover:opacity-85 transition-opacity mb-6 text-xs font-bold uppercase tracking-widest text-white/80 shrink-0"
-          >
-            <ArrowLeft size={14} />
-            <span>Back to Home</span>
-          </button>
-          
-          <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 border border-fbc-gold/40 shadow-sm p-1.5">
-            <img 
-              src="/fbc-alumni-logo.png" 
-              alt="FBC Alumni Seal" 
-              className="w-full h-full object-contain"
-            />
+      {/* Page Header */}
+      <div className="bg-white border-b border-gray-100 pt-16 pb-12 mb-10 print:hidden">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="inline-flex items-center gap-2 text-fbc-green text-[10px] font-black uppercase tracking-widest mb-4">
+            Governing Document
           </div>
-
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-white tracking-tight leading-tight">
-            Constitution and By-Laws
-          </h1>
-          <p className="text-white/85 text-xs md:text-sm mt-2 font-medium tracking-wider uppercase">
-            Fourah Bay College Alumni Association
-          </p>
-          <p className="text-white/60 text-[10px] md:text-xs mt-1">
-            Official governing document · Revised 2023
+          <h1 className="text-5xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">Constitution and By-Laws</h1>
+          <p className="text-gray-500 text-lg max-w-2xl leading-relaxed">
+            The official governing document of the Fourah Bay College Alumni Association. Last revised 2023.
           </p>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-6 -mt-10 relative z-30 mb-12 print:mt-0 print:px-0 print:mb-0 print:z-0">
+      <div className="max-w-4xl mx-auto px-6 mb-12 print:px-0 print:mb-0">
         <div className="bg-white rounded-md shadow-sm p-8 md:p-16 border border-gray-200 print:shadow-none print:border-none print:p-0">
           
           {/* Document Toolbar */}

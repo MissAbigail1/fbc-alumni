@@ -1,0 +1,358 @@
+.admin-shell {
+  display: flex;
+  min-height: 100vh;
+  background: #edf4ef;
+  color: #24352d;
+}
+
+.admin-sidebar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  flex: 0 0 236px;
+  width: 236px;
+  height: 100vh;
+  overflow-y: auto;
+  border: 0;
+  background: #193d32;
+  color: #f3f7f4;
+}
+
+.admin-sidebar-inner {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  padding: 26px 14px 20px;
+}
+
+.admin-sidebar-layout {
+  display: flex;
+  height: 100%;
+  align-items: stretch;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.admin-brand {
+  display: block;
+  margin: 0 10px 34px;
+  color: #fff;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+}
+
+.admin-links {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-links a {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 12px;
+  border: 0;
+  border-radius: 7px;
+  color: #d4e2da;
+  font-size: 14px;
+  font-weight: 400;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.admin-links a:hover {
+  background: rgb(255 255 255 / 8%);
+  color: #fff;
+}
+
+.admin-links a[class*="text-green-700"] {
+  border: 0;
+  background: #2d5648;
+  color: #fff;
+  font-weight: 600;
+}
+
+.admin-account {
+  display: flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+  padding: 14px 10px 0;
+  border-top: 1px solid rgb(255 255 255 / 14%);
+}
+
+.admin-account span,
+.admin-account button {
+  color: #d4e2da;
+  font-size: 12px;
+}
+
+.admin-account button:hover {
+  color: #fff;
+}
+
+.admin-account button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-menu-toggle {
+  color: #fff;
+}
+
+.admin-mobile-menu {
+  display: none;
+}
+
+.admin-workspace {
+  flex: 1;
+  min-width: 0;
+  min-height: calc(100vh - 40px);
+  margin: 20px;
+  padding: clamp(24px, 4vw, 48px);
+  overflow: hidden;
+  border: 1px solid #e5ebe7;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 28px rgb(28 54 42 / 4%);
+}
+
+.admin-workspace h1 {
+  font-size: 25px;
+  letter-spacing: -0.025em;
+}
+
+.admin-workspace h2 {
+  font-size: 15px;
+}
+
+.admin-workspace .admin-stat,
+.admin-workspace .admin-panel,
+.admin-workspace .admin-record,
+.admin-workspace .admin-table-wrap {
+  border-color: #e5ebe7;
+  border-radius: 9px;
+  box-shadow: 0 2px 8px rgb(28 54 42 / 3%);
+}
+
+.admin-workspace .admin-stat {
+  padding: 19px 20px;
+}
+
+.admin-stat-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.admin-stat-label svg {
+  color: #376a52;
+}
+
+.admin-workspace .admin-panel {
+  padding: clamp(18px, 3vw, 28px);
+}
+
+.admin-workspace .admin-record {
+  padding: 18px 20px;
+}
+
+.admin-event-image {
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border: 1px solid #e5ebe7;
+  border-radius: 7px;
+  background: #f5f8f6;
+}
+
+.admin-event-preview {
+  width: min(100%, 320px);
+  max-height: 180px;
+}
+
+.admin-event-thumbnail {
+  width: min(100%, 180px);
+  max-height: 102px;
+}
+
+.admin-event-image img {
+  display: block;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.admin-workspace input:not([type="file"]),
+.admin-workspace textarea {
+  border-radius: 6px;
+  border-color: #d8e1db;
+}
+
+.admin-workspace input:not([type="file"]):focus,
+.admin-workspace textarea:focus {
+  border-color: #376a52;
+  --tw-ring-color: #376a52;
+}
+
+.admin-workspace button[type="submit"],
+.admin-workspace button.bg-green-700,
+.admin-login-card button[type="submit"] {
+  border-radius: 6px;
+  background-color: #285941;
+}
+
+.admin-workspace button[type="submit"]:hover,
+.admin-workspace button.bg-green-700:hover,
+.admin-login-card button[type="submit"]:hover {
+  background-color: #1d4733;
+}
+
+.admin-workspace table {
+  min-width: 640px;
+}
+
+.admin-workspace thead tr {
+  background: #f5f8f6;
+}
+
+.admin-workspace th {
+  font-weight: 600;
+}
+
+.admin-workspace td,
+.admin-workspace th {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.admin-workspace .bg-yellow-50 {
+  background: #f2f7f3;
+}
+
+.admin-workspace .admin-record button,
+.admin-workspace td button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.admin-login-page {
+  background: #edf4ef;
+}
+
+.admin-login-wrap {
+  max-width: 420px;
+}
+
+.admin-login-heading h1 {
+  color: #193d32;
+  font-size: 24px;
+  letter-spacing: -0.025em;
+}
+
+.admin-login-card {
+  padding: 32px;
+  border-color: #e2e9e4;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgb(28 54 42 / 6%);
+}
+
+.admin-login-card input {
+  border-color: #d8e1db;
+  border-radius: 6px;
+}
+
+.admin-login-card input:focus {
+  border-color: #376a52;
+  --tw-ring-color: #376a52;
+}
+
+.admin-login-card button[type="submit"] {
+  padding-top: 11px;
+  padding-bottom: 11px;
+}
+
+.admin-login-card a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (max-width: 767px) {
+  .admin-shell {
+    display: block;
+  }
+
+  .admin-sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .admin-sidebar-inner {
+    height: auto;
+    padding: 0 16px;
+  }
+
+  .admin-sidebar-layout {
+    height: 62px;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .admin-brand {
+    margin: 0;
+  }
+
+  .admin-mobile-menu {
+    display: block;
+    padding: 10px 16px 14px;
+    border-top: 1px solid rgb(255 255 255 / 14%);
+    background: #193d32;
+  }
+
+  .admin-mobile-menu a,
+  .admin-mobile-menu span,
+  .admin-mobile-menu button {
+    color: #d4e2da;
+  }
+
+  .admin-mobile-menu a,
+  .admin-mobile-menu button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .admin-mobile-menu a[class*="text-green-700"] {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .admin-workspace {
+    min-height: calc(100vh - 62px);
+    margin: 12px;
+    padding: 24px 18px;
+    border-radius: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .admin-links {
+    display: flex;
+  }
+}
+
+@media (max-width: 520px) {
+  .admin-workspace .admin-stat {
+    padding: 15px 16px;
+  }
+
+  .admin-login-card {
+    padding: 24px;
+  }
+}
